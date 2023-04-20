@@ -7,14 +7,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class BouncyStabbo extends ApplicationAdapter {
 	//Instancio una variable que con la que manejar el estado de la ejecucion
-	int estadoEjecucion = 0;
+	int estadoEjecucion = 1;
 	//Instancio el SpriteBatch que contendra las animaciones del juego
 	SpriteBatch miBatch;
 	//Instancio la textura del fondo y un array de texturas para el personaje y su movimiento
 	Texture fondo;
 	Texture[] personajePrincipal;
 	//Hago variables con las que controlar las coordenadas del personaje y su velocidad
-	long movimiento = 0;
+	double movimiento = 0;
+	double velocidadCaida=0.65;
 	long personajeCoordX = 0;
 	long personajeCoordY = 0;
 
@@ -52,7 +53,9 @@ public class BouncyStabbo extends ApplicationAdapter {
 		// exponencialmente, dando la sensación de que está cayendo
 
 		if(estadoEjecucion != 0) {
-			movimiento++;
+
+
+			movimiento += velocidadCaida;
 			personajeCoordY -= movimiento;
 
 			recorreEstados();
