@@ -48,6 +48,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 		//Con este bucle registro si el usuario toca la pantalla
 		if(Gdx.input.justTouched()){
 			estadoEjecucion = 1;
+			movimiento= -30;
 		}
 		//Con esto simulo la gravedad, de manera que la coordenada Y del personaje decrece
 		// exponencialmente, dando la sensación de que está cayendo
