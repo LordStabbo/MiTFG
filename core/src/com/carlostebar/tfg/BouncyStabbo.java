@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class BouncyStabbo extends ApplicationAdapter {
+	//Instancio una variable que con la que manejar el estado de la ejecucion
+	int estadoEjecucion = 0;
 	//Instancio el SpriteBatch que contendra las animaciones del juego
 	SpriteBatch miBatch;
 	//Instancio la textura del fondo y un array de texturas para el personaje y su movimiento
@@ -44,21 +46,27 @@ public class BouncyStabbo extends ApplicationAdapter {
 	public void render () {
 		//Con este bucle registro si el usuario toca la pantalla
 		if(Gdx.input.justTouched()){
-
+			estadoEjecucion = 1;
 		}
 		//Con esto simulo la gravedad, de manera que la coordenada Y del personaje decrece
 		// exponencialmente, dando la sensación de que está cayendo
 
-		movimiento++;
-		personajeCoordY -= movimiento;
+		if(estadoEjecucion != 0) {
+			movimiento++;
+			personajeCoordY -= movimiento;
 
-		recorreEstados();
-		miBatch.begin();
-		//Pinto el fondo
-		miBatch.draw(fondo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		//Pinto el personaje en todas sus fases
-		miBatch.draw(personajePrincipal[controlPersonje], Gdx.graphics.getWidth()/2, personajeCoordY);
-		miBatch.end();
+			recorreEstados();
+			miBatch.begin();
+			//Pinto el fondo
+			miBatch.draw(fondo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			//Pinto el personaje en todas sus fases
+			miBatch.draw(personajePrincipal[controlPersonje], Gdx.graphics.getWidth() / 2, personajeCoordY);
+			miBatch.end();
+		}else{
+			if(Gdx.input.justTouched()){
+				estadoEjecucion = 1;
+			}
+		}
 	}
 
 	@Override
