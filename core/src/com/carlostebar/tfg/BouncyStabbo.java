@@ -34,6 +34,9 @@ public class BouncyStabbo extends ApplicationAdapter {
 	//renderizo las texturas cargadas en el metodo create
 	@Override
 	public void render () {
+		//Con este bucle registro si el usuario toca la pantalla
+		if(Gdx.input.justTouched())
+
 		recorreEstados();
 		miBatch.begin();
 		//Pinto el fondo
