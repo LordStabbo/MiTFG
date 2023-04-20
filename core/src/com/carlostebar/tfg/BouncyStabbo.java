@@ -11,6 +11,11 @@ public class BouncyStabbo extends ApplicationAdapter {
 	//Instancio la textura del fondo y un array de texturas para el personaje y su movimiento
 	Texture fondo;
 	Texture[] personajePrincipal;
+	//Hago variables con las que controlar las coordenadas del personaje y su velocidad
+	long movimiento = 0;
+	long personajeCoordX = 0;
+	long personajeCoordY = 0;
+
 
 	//hago una marca de control de la dfase del personaje principal
 	int controlPersonje = 0;
@@ -23,26 +28,36 @@ public class BouncyStabbo extends ApplicationAdapter {
 		//Instancio la textura del fondo
 		fondo = new Texture("fondo1.png");
 		//Instancio la textura del personaje
+
 		personajePrincipal= new Texture[5];
 			personajePrincipal[0] = new Texture("ninja_salto1.png");
 			personajePrincipal[1] = new Texture("ninja_salto2.png");
 			personajePrincipal[2] = new Texture("ninja_salto3.png");
 			personajePrincipal[3] = new Texture("ninja_salto4.png");
 			personajePrincipal[4] = new Texture("ninja_salto5.png");
+
+		personajeCoordY =  Gdx.graphics.getHeight()/2- personajePrincipal[controlPersonje].getHeight()/2;
 	}
 
 	//renderizo las texturas cargadas en el metodo create
 	@Override
 	public void render () {
 		//Con este bucle registro si el usuario toca la pantalla
-		if(Gdx.input.justTouched())
+		if(Gdx.input.justTouched()){
+
+		}
+		//Con esto simulo la gravedad, de manera que la coordenada Y del personaje decrece
+		// exponencialmente, dando la sensación de que está cayendo
+
+		movimiento++;
+		personajeCoordY -= movimiento;
 
 		recorreEstados();
 		miBatch.begin();
 		//Pinto el fondo
 		miBatch.draw(fondo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		//Pinto el personaje en todas sus fases
-		miBatch.draw(personajePrincipal[controlPersonje], Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+		miBatch.draw(personajePrincipal[controlPersonje], Gdx.graphics.getWidth()/2, personajeCoordY);
 		miBatch.end();
 	}
 
