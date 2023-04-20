@@ -39,7 +39,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 		//Pinto el fondo
 		miBatch.draw(fondo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		//Pinto el personaje en todas sus fases
-		miBatch.draw(personajePrincipal[controlPersonje], 0, 0);
+		miBatch.draw(personajePrincipal[controlPersonje], Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		miBatch.end();
 	}
 
