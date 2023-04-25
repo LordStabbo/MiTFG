@@ -5,8 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import org.graalvm.compiler.core.common.util.Util;
-
 import java.util.Random;
 
 public class BouncyStabbo extends ApplicationAdapter {
@@ -21,17 +19,26 @@ public class BouncyStabbo extends ApplicationAdapter {
 	Texture fondo;
 	Texture[] personajePrincipal;
 	//Hago variables con las que controlar las coordenadas del personaje y su velocidad
-	double movimiento = 0;
-	double velocidadCaida=0.65;
+	double movimientoPersonaje = 0;
+	double velocidadCaida=2;
 	long personajeCoordY = 0;
 
 	//Hago una variable para definir el espacio entre obstaculos y otro para el rango de espacio
 	// en el que pueden "spawnear" los obstaculos, asi como un objeto de la clase Random con
 	// el que se generaran los obstaculos de manera aleatoria
-	long espadiadObstaculos = 200;
-	long rangObstaculos;
+	float espaciadObstaculos = 1;
+	float rangObstaculos;
 	Random miGeneradorObstaculos;
 
+	/*Hago variables para definir la valocidad y coordenadas de movimiento de los obstaculos*/
+	float movimientoObstaculo = 4;
+
+	//Hago una variable para controlar el numero de obstaculos que se van "a pasear" en bucle por
+	// la pantalla, este se va a igualar con la velocidad de los obstaculos para que no se descuadre
+	// por la pantalla
+	int numObstaculos = (int) movimientoObstaculo;
+	float [] obstaculoCoordX = new float[numObstaculos];
+	float [] espaciadoObstaculos = new float[numObstaculos];
 
 	//hago una marca de control de la dfase del personaje principal
 	int controlPersonje = 0;
@@ -49,6 +56,11 @@ public class BouncyStabbo extends ApplicationAdapter {
 		}else {
 			controlPersonje = 0;
 		}
+	}
+
+	public void plantaSuelo(){
+		movimientoPersonaje = movimientoPersonaje + velocidadCaida;
+		personajeCoordY -= movimientoPersonaje;
 	}
 
 	//metodo on create que se arranca al iniciar
@@ -70,9 +82,12 @@ public class BouncyStabbo extends ApplicationAdapter {
 		personajeCoordY =  Gdx.graphics.getHeight()/2- personajePrincipal[controlPersonje].getHeight()/2;
 
 		//Instancio las texturas de los obstaculos y declaro el rango en el que pueden aparecer
-		obstaculoArriba = new Texture("obstaculo1.png");
-		obstaculoAbajo = new Texture("obstaculo2.png");
-		rangObstaculos = Gdx.graphics.getHeight() / 2 - espadiadObstaculos - 100;
+		obstaculoArriba = new Texture("obstaculo2.png");
+		obstaculoAbajo = new Texture("obstaculo1.png");
+		rangObstaculos = Gdx.graphics.getHeight() / 2 - espaciadObstaculos - 100;
+		miGeneradorObstaculos = new Random();
+		obstaculoCoordX = Gdx.graphics.getWidth()/2 - obstaculoArriba.getWidth()/2;
+		espaciadoObstaculos = Gdx.graphics.getWidth()/2;
 	}
 
 	//renderizo las texturas cargadas en el metodo create
@@ -85,31 +100,38 @@ public class BouncyStabbo extends ApplicationAdapter {
 		// exponencialmente, dando la sensación de que está cayendo
 
 		if(estadoEjecucion != 0) {
-			
+
 			recorreEstados();
 			miBatch.begin();
 			//Pinto el fondo
 			miBatch.draw(fondo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-			miBatch.draw(obstaculoAbajo, Gdx.graphics.getWidth()  - obstaculoAbajo.getWidth(), Gdx.graphics.getHeight() / 2+ espadiadObstaculos);
-			miBatch.draw(obstaculoArriba, Gdx.graphics.getWidth()  - obstaculoArriba.getWidth(), Gdx.graphics.getHeight() / 2- espadiadObstaculos/2-obstaculoAbajo.getHeight());
+			//Pinto los obstaculos
+			miBatch.draw(obstaculoArriba, obstaculoCoordX, Gdx.graphics.getHeight() / 2/*+ rangObstaculos / 2*/);
+			miBatch.draw(obstaculoAbajo, obstaculoCoordX, Gdx.graphics.getHeight() / 2/*- rangObstaculos*/ /2-obstaculoArriba.getHeight());
+
+			//Con este bucle registro si el usuario toca la pantalla
+			if(Gdx.input.justTouched()){
+				estadoEjecucion = 1;
+				movimientoPersonaje = -50;
+				rangObstaculos = (miGeneradorObstaculos.nextLong()- 0.5f) * (Gdx.graphics.getHeight() - espaciadObstaculos -200 );
+				obstaculoCoordX -= movimientoObstaculo;
+			}
+
+
 
 			//Pinto el personaje en todas sus fases
 			miBatch.draw(personajePrincipal[controlPersonje], Gdx.graphics.getWidth() / 2, personajeCoordY);
 			miBatch.end();
 
-			//Con este bucle registro si el usuario toca la pantalla
-			if(Gdx.input.justTouched()){
-				estadoEjecucion = 1;
-				movimiento= -30;
-			}
+
 
 			//Con este bucle hago que si el personaje llega a la parte de abajo de la pantalla su
 			// movimiento hacia abajo  se detiene de manera que parece que el suelo ha parado la
 			// caida del personaje
-			if(personajeCoordY > 0 || movimiento < 0){
-				movimiento = movimiento + velocidadCaida;
-				personajeCoordY -= movimiento;
+			if(personajeCoordY > 0 || movimientoPersonaje < 0){
+				plantaSuelo();
+
 			}
 		}else{
 			if(Gdx.input.justTouched()){
