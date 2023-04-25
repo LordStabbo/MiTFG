@@ -26,8 +26,8 @@ public class BouncyStabbo extends ApplicationAdapter {
 	//Hago una variable para definir el espacio entre obstaculos y otro para el rango de espacio
 	// en el que pueden "spawnear" los obstaculos, asi como un objeto de la clase Random con
 	// el que se generaran los obstaculos de manera aleatoria
-	float espaciadObstaculos = 1;
-	float rangObstaculos;
+	float espaciadObstaculos = 100;
+	float maxRangObstaculos;
 	Random miGeneradorObstaculos;
 
 	/*Hago variables para definir la valocidad y coordenadas de movimiento de los obstaculos*/
@@ -38,7 +38,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 	// por la pantalla
 	int numObstaculos = (int) movimientoObstaculo;
 	float [] obstaculoCoordX = new float[numObstaculos];
-	float [] espaciadoObstaculos = new float[numObstaculos];
+	float [] rangObstaculos = new float[numObstaculos];
 
 	//hago una marca de control de la dfase del personaje principal
 	int controlPersonje = 0;
@@ -84,45 +84,63 @@ public class BouncyStabbo extends ApplicationAdapter {
 		//Instancio las texturas de los obstaculos y declaro el rango en el que pueden aparecer
 		obstaculoArriba = new Texture("obstaculo2.png");
 		obstaculoAbajo = new Texture("obstaculo1.png");
-		rangObstaculos = Gdx.graphics.getHeight() / 2 - espaciadObstaculos - 100;
 		miGeneradorObstaculos = new Random();
-		obstaculoCoordX = Gdx.graphics.getWidth()/2 - obstaculoArriba.getWidth()/2;
-		espaciadoObstaculos = Gdx.graphics.getWidth()/2;
+		espaciadObstaculos = Gdx.graphics.getWidth()*3/4;
+		for (int i = 0; i < numObstaculos; i++){
+
+			rangObstaculos[i] = (miGeneradorObstaculos.nextLong()- 0.5f) * (Gdx.graphics.getHeight() - espaciadObstaculos -200 );
+			obstaculoCoordX[i] = Gdx.graphics.getWidth()/2 - obstaculoArriba.getWidth()/2+Gdx.graphics.getWidth()+i*espaciadObstaculos;
+
+			//espaciadoObstaculos = Gdx.graphics.getWidth()/2;
+		}
+
+
+
 	}
 
 	//renderizo las texturas cargadas en el metodo create
 	@Override
 	public void render () {
 
-
+		miBatch.begin();
 
 		//Con esto simulo la gravedad, de manera que la coordenada Y del personaje decrece
 		// exponencialmente, dando la sensación de que está cayendo
 
 		if(estadoEjecucion != 0) {
 
+
+
 			recorreEstados();
-			miBatch.begin();
 			//Pinto el fondo
 			miBatch.draw(fondo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-			//Pinto los obstaculos
-			miBatch.draw(obstaculoArriba, obstaculoCoordX, Gdx.graphics.getHeight() / 2/*+ rangObstaculos / 2*/);
-			miBatch.draw(obstaculoAbajo, obstaculoCoordX, Gdx.graphics.getHeight() / 2/*- rangObstaculos*/ /2-obstaculoArriba.getHeight());
+
 
 			//Con este bucle registro si el usuario toca la pantalla
 			if(Gdx.input.justTouched()){
-				estadoEjecucion = 1;
+				//Esto hace que cada vez que el usuario toca, el personaje se mueve 50 uds hacia
+				// arriba
 				movimientoPersonaje = -50;
-				rangObstaculos = (miGeneradorObstaculos.nextLong()- 0.5f) * (Gdx.graphics.getHeight() - espaciadObstaculos -200 );
-				obstaculoCoordX -= movimientoObstaculo;
+			}
+
+			for(int i = 0; i< numObstaculos; i++){
+				if(obstaculoCoordX[i] < - obstaculoArriba.getWidth()){
+					obstaculoCoordX[i] += numObstaculos * espaciadObstaculos;
+					rangObstaculos[i] = (miGeneradorObstaculos.nextLong()- 0.5f) * (Gdx.graphics.getHeight() - espaciadObstaculos -200 );
+				}else{
+					obstaculoCoordX[i] -= movimientoObstaculo;
+				}
+
+				//Pinto los obstaculos
+				miBatch.draw(obstaculoArriba, obstaculoCoordX[i], Gdx.graphics.getHeight() / 2/*+ rangObstaculos[i] / 2*/);
+				miBatch.draw(obstaculoAbajo, obstaculoCoordX[i], Gdx.graphics.getHeight() / 2- /*rangObstaculos[i] /2-*/obstaculoArriba.getHeight());
+
 			}
 
 
 
-			//Pinto el personaje en todas sus fases
-			miBatch.draw(personajePrincipal[controlPersonje], Gdx.graphics.getWidth() / 2, personajeCoordY);
-			miBatch.end();
+
 
 
 
@@ -138,6 +156,11 @@ public class BouncyStabbo extends ApplicationAdapter {
 				estadoEjecucion = 1;
 			}
 		}
+
+		//Pinto el personaje en todas sus fases
+		miBatch.draw(personajePrincipal[controlPersonje], Gdx.graphics.getWidth() / 2, personajeCoordY);
+		miBatch.end();
+
 	}
 
 }
