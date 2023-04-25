@@ -2,6 +2,9 @@ package com.carlostebar.tfg;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -65,6 +68,10 @@ public class BouncyStabbo extends ApplicationAdapter {
 	int puntuacion = 0;
 	BitmapFont miFuente;
 
+	//Instancio la musica de la partida y los sonidos que voy a usar
+	Music musicaFondo;
+	Sound sonidoSalto;
+
 	//Hago un metodo que recorra en bucle el estado del personaje para usarlo en el metodo render
 	public void recorreEstados(){
 		if(controlPersonje == 0){
@@ -78,6 +85,12 @@ public class BouncyStabbo extends ApplicationAdapter {
 		}else {
 			controlPersonje = 0;
 		}
+	}
+
+	public void ponMusica(){
+		musicaFondo = Gdx.audio.newMusic(Gdx.files.internal("saveThat.ogg"));
+		musicaFondo.setLooping(true);
+		musicaFondo.play();
 	}
 
 	public void plantaSuelo(){
@@ -132,10 +145,13 @@ public class BouncyStabbo extends ApplicationAdapter {
 		miFuente.setColor(Color.PURPLE);
 		miFuente.getData().setScale(12);
 
+		sonidoSalto = Gdx.audio.newSound(Gdx.files.internal("Jump.wav"));
+
 		instanciaPartida();
 
 		//myRenderer = new ShapeRenderer();
 
+		ponMusica();
 	}
 
 	//renderizo las texturas cargadas en el metodo create
@@ -153,7 +169,9 @@ public class BouncyStabbo extends ApplicationAdapter {
 
 			recorreEstados();
 			//Pinto el fondo
-			miBatch.draw(fondo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			miBatch.draw(fondo, 0, 0, Gdx.graphics.getWidth()+1000, Gdx.graphics.getHeight());
+
+
 
 
 
@@ -162,9 +180,13 @@ public class BouncyStabbo extends ApplicationAdapter {
 				//Esto hace que cada vez que el usuario toca, el personaje se mueve 50 uds hacia
 				// arriba
 				movimientoPersonaje = -50;
+				sonidoSalto.play();
 			}
 
 			for(int i = 0; i< numObstaculos; i++){
+
+
+
 				if(obstaculoCoordX[i] < - obstaculoArriba.getWidth()){
 					obstaculoCoordX[i] += numObstaculos * espaciadObstaculos;
 					rangObstaculos[i] = (miGeneradorObstaculos.nextFloat()- 0.5f) * (Gdx.graphics.getHeight() - espaciadObstaculos -200 );
@@ -226,9 +248,6 @@ public class BouncyStabbo extends ApplicationAdapter {
 		circuloPersonaje.set(Gdx.graphics.getWidth()/2+personajePrincipal[controlPersonje].getWidth()/2, personajeCoordY+ personajePrincipal[controlPersonje].getHeight()/2, personajePrincipal[controlPersonje].getWidth()/2);
 
 
-
-
-
 		//--------------Toda esta sección se ha utilizado para testear las colisiones entre objetos
 		// 			pero lo conservo en el codigo por intereses academicos
 
@@ -249,13 +268,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 			}
 		}
 
-
-
-
 		//myRenderer.end();
-
-
-
 
 		miBatch.end();
 	}
