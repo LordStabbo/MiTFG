@@ -26,7 +26,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 	//Hago una variable para definir el espacio entre obstaculos y otro para el rango de espacio
 	// en el que pueden "spawnear" los obstaculos, asi como un objeto de la clase Random con
 	// el que se generaran los obstaculos de manera aleatoria
-	float espaciadObstaculos = 100;
+	float espaciadObstaculos = 400;
 	float maxRangObstaculos;
 	Random miGeneradorObstaculos;
 
@@ -88,7 +88,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 		espaciadObstaculos = Gdx.graphics.getWidth()*3/4;
 		for (int i = 0; i < numObstaculos; i++){
 
-			rangObstaculos[i] = (miGeneradorObstaculos.nextLong()- 0.5f) * (Gdx.graphics.getHeight() - espaciadObstaculos -200 );
+			rangObstaculos[i] = (miGeneradorObstaculos.nextFloat()- 0.5f) * (Gdx.graphics.getHeight() - espaciadObstaculos -200 );
 			obstaculoCoordX[i] = Gdx.graphics.getWidth()/2 - obstaculoArriba.getWidth()/2+Gdx.graphics.getWidth()+i*espaciadObstaculos;
 
 			//espaciadoObstaculos = Gdx.graphics.getWidth()/2;
@@ -127,22 +127,16 @@ public class BouncyStabbo extends ApplicationAdapter {
 			for(int i = 0; i< numObstaculos; i++){
 				if(obstaculoCoordX[i] < - obstaculoArriba.getWidth()){
 					obstaculoCoordX[i] += numObstaculos * espaciadObstaculos;
-					rangObstaculos[i] = (miGeneradorObstaculos.nextLong()- 0.5f) * (Gdx.graphics.getHeight() - espaciadObstaculos -200 );
+					rangObstaculos[i] = (miGeneradorObstaculos.nextFloat()- 0.5f) * (Gdx.graphics.getHeight() - espaciadObstaculos -200 );
 				}else{
 					obstaculoCoordX[i] -= movimientoObstaculo;
 				}
 
 				//Pinto los obstaculos
-				miBatch.draw(obstaculoArriba, obstaculoCoordX[i], Gdx.graphics.getHeight() / 2/*+ rangObstaculos[i] / 2*/);
-				miBatch.draw(obstaculoAbajo, obstaculoCoordX[i], Gdx.graphics.getHeight() / 2- /*rangObstaculos[i] /2-*/obstaculoArriba.getHeight());
+				miBatch.draw(obstaculoArriba, obstaculoCoordX[i], Gdx.graphics.getHeight() / 2+ espaciadObstaculos/2 + rangObstaculos[i]);
+				miBatch.draw(obstaculoAbajo, obstaculoCoordX[i], Gdx.graphics.getHeight() / 2- espaciadObstaculos/2 - obstaculoAbajo.getHeight()+rangObstaculos[i]);
 
 			}
-
-
-
-
-
-
 
 			//Con este bucle hago que si el personaje llega a la parte de abajo de la pantalla su
 			// movimiento hacia abajo  se detiene de manera que parece que el suelo ha parado la
