@@ -4,9 +4,11 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Random;
@@ -55,7 +57,13 @@ public class BouncyStabbo extends ApplicationAdapter {
 	int controlPersonje = 0;
 
 	//Creo un renderer para trabajar con las colisiones entre objetos
-	ShapeRenderer myRenderer;
+	//ShapeRenderer myRenderer;
+
+
+	//Creo una variable en la que almacenar los puntos del jugador y un BitMapFont para pintarlos
+	// en pantalla
+	int puntuacion = 0;
+	BitmapFont miFuente;
 
 	//Hago un metodo que recorra en bucle el estado del personaje para usarlo en el metodo render
 	public void recorreEstados(){
@@ -77,6 +85,18 @@ public class BouncyStabbo extends ApplicationAdapter {
 		personajeCoordY -= movimientoPersonaje;
 	}
 
+	public void instanciaPartida(){
+		personajeCoordY =  Gdx.graphics.getHeight()/2- personajePrincipal[controlPersonje].getHeight()/2;
+		for (int i = 0; i < numObstaculos; i++){
+
+			rangObstaculos[i] = (miGeneradorObstaculos.nextFloat()- 0.5f) * (Gdx.graphics.getHeight() - espaciadObstaculos -200 );
+			obstaculoCoordX[i] = Gdx.graphics.getWidth()/2 - obstaculoArriba.getWidth()/2+Gdx.graphics.getWidth()+i*espaciadObstaculos;
+
+			rectanguloObstaculoSuperior[i] = new Rectangle();
+			rectanguloObstaculoInferior[i] = new Rectangle();
+		}
+	}
+
 	//metodo on create que se arranca al iniciar
 	@Override
 	public void create () {
@@ -93,7 +113,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 			personajePrincipal[3] = new Texture("ninja_salto4.png");
 			personajePrincipal[4] = new Texture("ninja_salto5.png");
 
-		personajeCoordY =  Gdx.graphics.getHeight()/2- personajePrincipal[controlPersonje].getHeight()/2;
+
 
 		//Instancio las texturas de los obstaculos y declaro el rango en el que pueden aparecer
 		obstaculoArriba = new Texture("obstaculo2.png");
@@ -107,16 +127,14 @@ public class BouncyStabbo extends ApplicationAdapter {
 		rectanguloObstaculoSuperior = new Rectangle[numObstaculos];
 		rectanguloObstaculoInferior = new Rectangle[numObstaculos];
 
-		for (int i = 0; i < numObstaculos; i++){
+		//Instancio mi fuente
+		miFuente = new BitmapFont();
+		miFuente.setColor(Color.PURPLE);
+		miFuente.getData().setScale(12);
 
-			rangObstaculos[i] = (miGeneradorObstaculos.nextFloat()- 0.5f) * (Gdx.graphics.getHeight() - espaciadObstaculos -200 );
-			obstaculoCoordX[i] = Gdx.graphics.getWidth()/2 - obstaculoArriba.getWidth()/2+Gdx.graphics.getWidth()+i*espaciadObstaculos;
+		instanciaPartida();
 
-			rectanguloObstaculoSuperior[i] = new Rectangle();
-			rectanguloObstaculoInferior[i] = new Rectangle();
-		}
-
-		myRenderer = new ShapeRenderer();
+		//myRenderer = new ShapeRenderer();
 
 	}
 
@@ -129,7 +147,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 		//Con esto simulo la gravedad, de manera que la coordenada Y del personaje decrece
 		// exponencialmente, dando la sensación de que está cayendo
 
-		if(estadoEjecucion != 0) {
+		if(estadoEjecucion == 1) {
 
 
 
@@ -152,6 +170,17 @@ public class BouncyStabbo extends ApplicationAdapter {
 					rangObstaculos[i] = (miGeneradorObstaculos.nextFloat()- 0.5f) * (Gdx.graphics.getHeight() - espaciadObstaculos -200 );
 				}else{
 					obstaculoCoordX[i] -= movimientoObstaculo;
+
+					//Si los obstaculos pasan de la posicion X del personaje, se suman 100 puntos,
+					// si no pasan de ahi es porque el juego se ha detenido antes por una colision,
+					// por lo que el jugador ya habría perdido para ese momento
+
+					if(obstaculoCoordX[i] <= Gdx.graphics.getWidth()/2 ){
+						puntuacion+= 10;
+
+					}
+
+					
 				}
 
 				//Pinto los obstaculos
@@ -171,42 +200,64 @@ public class BouncyStabbo extends ApplicationAdapter {
 				plantaSuelo();
 
 			}
-		}else{
+		}else if(estadoEjecucion == 0){
 			if(Gdx.input.justTouched()){
 				estadoEjecucion = 1;
 			}
+		}else if(estadoEjecucion == 2){
+			miFuente.draw(miBatch, "Perdiste", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+				Gdx.app.log("----------------------------", "Perdiste");
+				estadoEjecucion = 1;
+				puntuacion = 0;
+				movimientoPersonaje = 0;
+				instanciaPartida();
 		}
 
 		//Pinto el personaje en todas sus fases
 		miBatch.draw(personajePrincipal[controlPersonje], Gdx.graphics.getWidth() / 2, personajeCoordY);
-		miBatch.end();
 
+		miFuente.draw(miBatch, String.valueOf(puntuacion), Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		//Inicio el shapeRenderer pasandole por parametro que rellene las texturas con las que trabaja
-		myRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		myRenderer.setColor(Color.RED);
+
+		//myRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		//myRenderer.setColor(Color.PURPLE);
 
 		circuloPersonaje.set(Gdx.graphics.getWidth()/2+personajePrincipal[controlPersonje].getWidth()/2, personajeCoordY+ personajePrincipal[controlPersonje].getHeight()/2, personajePrincipal[controlPersonje].getWidth()/2);
+
+
+
+
 
 		//--------------Toda esta sección se ha utilizado para testear las colisiones entre objetos
 		// 			pero lo conservo en el codigo por intereses academicos
 
-		/*
-		myRenderer.circle(circuloPersonaje.x, circuloPersonaje.y, circuloPersonaje.radius);
+
+		//myRenderer.circle(circuloPersonaje.x, circuloPersonaje.y, circuloPersonaje.radius);
+
 
 		for(int i = 0; i< numObstaculos; i++){
-			myRenderer.rect(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2+ espaciadObstaculos/2 + rangObstaculos[i], obstaculoArriba.getWidth(), obstaculoArriba.getHeight());
-			myRenderer.rect(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2- espaciadObstaculos/2 - obstaculoAbajo.getHeight()+rangObstaculos[i], obstaculoAbajo.getWidth(), obstaculoAbajo.getHeight());
+			//myRenderer.rect(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2+ espaciadObstaculos/2 + rangObstaculos[i], obstaculoArriba.getWidth(), obstaculoArriba.getHeight());
+			//myRenderer.rect(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2- espaciadObstaculos/2 - obstaculoAbajo.getHeight()+rangObstaculos[i], obstaculoAbajo.getWidth(), obstaculoAbajo.getHeight());
+
+			if(Intersector.overlaps(circuloPersonaje, rectanguloObstaculoInferior[i] )){
+				Gdx.app.log("Colision", "Has chocado por abajo");
+				estadoEjecucion = 2;
+			}else if(Intersector.overlaps( circuloPersonaje, rectanguloObstaculoSuperior[i])){
+				Gdx.app.log("Colision", "Has chocado por arriba");
+				estadoEjecucion = 2;
+			}
 		}
 
-		*/
-
-
-		myRenderer.end();
 
 
 
+		//myRenderer.end();
 
 
+
+
+		miBatch.end();
 	}
 
 }
