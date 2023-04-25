@@ -2,8 +2,12 @@ package com.carlostebar.tfg;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Random;
 
@@ -22,11 +26,14 @@ public class BouncyStabbo extends ApplicationAdapter {
 	double movimientoPersonaje = 0;
 	double velocidadCaida=2;
 	long personajeCoordY = 0;
+	//Creo un Circle para las colisiones del personaje
+	Circle circuloPersonaje;
+
 
 	//Hago una variable para definir el espacio entre obstaculos y otro para el rango de espacio
 	// en el que pueden "spawnear" los obstaculos, asi como un objeto de la clase Random con
 	// el que se generaran los obstaculos de manera aleatoria
-	float espaciadObstaculos = 400;
+	float espaciadObstaculos = 48888800;
 	float maxRangObstaculos;
 	Random miGeneradorObstaculos;
 
@@ -40,8 +47,15 @@ public class BouncyStabbo extends ApplicationAdapter {
 	float [] obstaculoCoordX = new float[numObstaculos];
 	float [] rangObstaculos = new float[numObstaculos];
 
+	//Creo dos arrays de Rectangles para procesar las colisiones de los obstaculos superior e inferior
+	Rectangle [] rectanguloObstaculoSuperior;
+	Rectangle [] rectanguloObstaculoInferior;
+
 	//hago una marca de control de la dfase del personaje principal
 	int controlPersonje = 0;
+
+	//Creo un renderer para trabajar con las colisiones entre objetos
+	ShapeRenderer myRenderer;
 
 	//Hago un metodo que recorra en bucle el estado del personaje para usarlo en el metodo render
 	public void recorreEstados(){
@@ -86,15 +100,23 @@ public class BouncyStabbo extends ApplicationAdapter {
 		obstaculoAbajo = new Texture("obstaculo1.png");
 		miGeneradorObstaculos = new Random();
 		espaciadObstaculos = Gdx.graphics.getWidth()*3/4;
+
+		//Creo el circle del personaje principal e instancio el array de rectangles de los obstaculos
+		// para crear a estos mismos a medida que se vayan generando los obstaculos
+		circuloPersonaje = new Circle();
+		rectanguloObstaculoSuperior = new Rectangle[numObstaculos];
+		rectanguloObstaculoInferior = new Rectangle[numObstaculos];
+
 		for (int i = 0; i < numObstaculos; i++){
 
 			rangObstaculos[i] = (miGeneradorObstaculos.nextFloat()- 0.5f) * (Gdx.graphics.getHeight() - espaciadObstaculos -200 );
 			obstaculoCoordX[i] = Gdx.graphics.getWidth()/2 - obstaculoArriba.getWidth()/2+Gdx.graphics.getWidth()+i*espaciadObstaculos;
 
-			//espaciadoObstaculos = Gdx.graphics.getWidth()/2;
+			rectanguloObstaculoSuperior[i] = new Rectangle();
+			rectanguloObstaculoInferior[i] = new Rectangle();
 		}
 
-
+		myRenderer = new ShapeRenderer();
 
 	}
 
@@ -136,6 +158,10 @@ public class BouncyStabbo extends ApplicationAdapter {
 				miBatch.draw(obstaculoArriba, obstaculoCoordX[i], Gdx.graphics.getHeight() / 2+ espaciadObstaculos/2 + rangObstaculos[i]);
 				miBatch.draw(obstaculoAbajo, obstaculoCoordX[i], Gdx.graphics.getHeight() / 2- espaciadObstaculos/2 - obstaculoAbajo.getHeight()+rangObstaculos[i]);
 
+				//Defino sus rectangles
+				rectanguloObstaculoSuperior[i] = new Rectangle(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2+ espaciadObstaculos/2 + rangObstaculos[i], obstaculoArriba.getWidth(), obstaculoArriba.getHeight());
+				rectanguloObstaculoInferior[i] = new Rectangle(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2- espaciadObstaculos/2 - obstaculoAbajo.getHeight()+rangObstaculos[i], obstaculoAbajo.getWidth(), obstaculoAbajo.getHeight());
+
 			}
 
 			//Con este bucle hago que si el personaje llega a la parte de abajo de la pantalla su
@@ -154,6 +180,32 @@ public class BouncyStabbo extends ApplicationAdapter {
 		//Pinto el personaje en todas sus fases
 		miBatch.draw(personajePrincipal[controlPersonje], Gdx.graphics.getWidth() / 2, personajeCoordY);
 		miBatch.end();
+
+		//Inicio el shapeRenderer pasandole por parametro que rellene las texturas con las que trabaja
+		myRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		myRenderer.setColor(Color.RED);
+
+		circuloPersonaje.set(Gdx.graphics.getWidth()/2+personajePrincipal[controlPersonje].getWidth()/2, personajeCoordY+ personajePrincipal[controlPersonje].getHeight()/2, personajePrincipal[controlPersonje].getWidth()/2);
+
+		//--------------Toda esta sección se ha utilizado para testear las colisiones entre objetos
+		// 			pero lo conservo en el codigo por intereses academicos
+
+		/*
+		myRenderer.circle(circuloPersonaje.x, circuloPersonaje.y, circuloPersonaje.radius);
+
+		for(int i = 0; i< numObstaculos; i++){
+			myRenderer.rect(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2+ espaciadObstaculos/2 + rangObstaculos[i], obstaculoArriba.getWidth(), obstaculoArriba.getHeight());
+			myRenderer.rect(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2- espaciadObstaculos/2 - obstaculoAbajo.getHeight()+rangObstaculos[i], obstaculoAbajo.getWidth(), obstaculoAbajo.getHeight());
+		}
+
+		*/
+
+
+		myRenderer.end();
+
+
+
+
 
 	}
 
