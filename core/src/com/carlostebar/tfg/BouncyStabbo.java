@@ -19,6 +19,7 @@ import java.util.Random;
 public class BouncyStabbo extends ApplicationAdapter {
 	//Instancio una variable que con la que manejar el estado de la ejecucion
 	int estadoEjecucion = 0;
+	int desplazamiento =0;
 	//Instancio el SpriteBatch que contendra las animaciones del juego
 	SpriteBatch miBatch;
 	//Instancio la textura del fondo y un array de texturas para el personaje y su movimiento
@@ -29,7 +30,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 	Texture[] personajePrincipal;
 	//Hago variables con las que controlar las coordenadas del personaje y su velocidad
 	double movimientoPersonaje = 0;
-	double velocidadCaida=2;
+	double velocidadCaida=0.9;
 	long personajeCoordY = 0;
 	//Creo un Circle para las colisiones del personaje
 	Circle circuloPersonaje;
@@ -38,7 +39,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 	//Hago una variable para definir el espacio entre obstaculos y otro para el rango de espacio
 	// en el que pueden "spawnear" los obstaculos, asi como un objeto de la clase Random con
 	// el que se generaran los obstaculos de manera aleatoria
-	float espaciadObstaculos = 48888800;
+	float espaciadObstaculos = 35;
 	float maxRangObstaculos;
 	Random miGeneradorObstaculos;
 
@@ -60,7 +61,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 	int controlPersonje = 0;
 
 	//Creo un renderer para trabajar con las colisiones entre objetos
-	//ShapeRenderer myRenderer;
+	ShapeRenderer myRenderer;
 
 
 	//Creo una variable en la que almacenar los puntos del jugador y un BitMapFont para pintarlos
@@ -149,7 +150,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 
 		instanciaPartida();
 
-		//myRenderer = new ShapeRenderer();
+		myRenderer = new ShapeRenderer();
 
 		ponMusica();
 	}
@@ -165,11 +166,12 @@ public class BouncyStabbo extends ApplicationAdapter {
 
 		if(estadoEjecucion == 1) {
 
+			desplazamiento++;
 
 
 			recorreEstados();
 			//Pinto el fondo
-			miBatch.draw(fondo, 0, 0, Gdx.graphics.getWidth()+1000, Gdx.graphics.getHeight());
+			miBatch.draw(fondo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 
 
@@ -179,7 +181,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 			if(Gdx.input.justTouched()){
 				//Esto hace que cada vez que el usuario toca, el personaje se mueve 50 uds hacia
 				// arriba
-				movimientoPersonaje = -50;
+				movimientoPersonaje = -25;
 				sonidoSalto.play();
 			}
 
@@ -206,12 +208,12 @@ public class BouncyStabbo extends ApplicationAdapter {
 				}
 
 				//Pinto los obstaculos
-				miBatch.draw(obstaculoArriba, obstaculoCoordX[i], Gdx.graphics.getHeight() / 2+ espaciadObstaculos/2 + rangObstaculos[i]);
-				miBatch.draw(obstaculoAbajo, obstaculoCoordX[i], Gdx.graphics.getHeight() / 2- espaciadObstaculos/2 - obstaculoAbajo.getHeight()+rangObstaculos[i]);
+				miBatch.draw(obstaculoArriba, obstaculoCoordX[i], Gdx.graphics.getHeight() / 2+ espaciadObstaculos/3 + rangObstaculos[i]);
+				miBatch.draw(obstaculoAbajo, obstaculoCoordX[i], Gdx.graphics.getHeight() / 2- espaciadObstaculos/3 - obstaculoAbajo.getHeight()+rangObstaculos[i]);
 
 				//Defino sus rectangles
-				rectanguloObstaculoSuperior[i] = new Rectangle(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2+ espaciadObstaculos/2 + rangObstaculos[i], obstaculoArriba.getWidth(), obstaculoArriba.getHeight());
-				rectanguloObstaculoInferior[i] = new Rectangle(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2- espaciadObstaculos/2 - obstaculoAbajo.getHeight()+rangObstaculos[i], obstaculoAbajo.getWidth(), obstaculoAbajo.getHeight());
+				rectanguloObstaculoSuperior[i] = new Rectangle(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2+ espaciadObstaculos/3 + rangObstaculos[i], obstaculoArriba.getWidth(), obstaculoArriba.getHeight());
+				rectanguloObstaculoInferior[i] = new Rectangle(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2- espaciadObstaculos/3 - obstaculoAbajo.getHeight()+rangObstaculos[i], obstaculoAbajo.getWidth(), obstaculoAbajo.getHeight());
 
 			}
 
@@ -242,8 +244,11 @@ public class BouncyStabbo extends ApplicationAdapter {
 		miFuente.draw(miBatch, String.valueOf(puntuacion), Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		//Inicio el shapeRenderer pasandole por parametro que rellene las texturas con las que trabaja
 
-		//myRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		//myRenderer.setColor(Color.PURPLE);
+		myRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		myRenderer.setColor(new Color(0f, 0f, 1f, 0.5f));
+
+
+
 
 		circuloPersonaje.set(Gdx.graphics.getWidth()/2+personajePrincipal[controlPersonje].getWidth()/2, personajeCoordY+ personajePrincipal[controlPersonje].getHeight()/2, personajePrincipal[controlPersonje].getWidth()/2);
 
@@ -252,12 +257,12 @@ public class BouncyStabbo extends ApplicationAdapter {
 		// 			pero lo conservo en el codigo por intereses academicos
 
 
-		//myRenderer.circle(circuloPersonaje.x, circuloPersonaje.y, circuloPersonaje.radius);
+		myRenderer.circle(circuloPersonaje.x, circuloPersonaje.y, circuloPersonaje.radius);
 
 
 		for(int i = 0; i< numObstaculos; i++){
-			//myRenderer.rect(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2+ espaciadObstaculos/2 + rangObstaculos[i], obstaculoArriba.getWidth(), obstaculoArriba.getHeight());
-			//myRenderer.rect(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2- espaciadObstaculos/2 - obstaculoAbajo.getHeight()+rangObstaculos[i], obstaculoAbajo.getWidth(), obstaculoAbajo.getHeight());
+			myRenderer.rect(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2+ espaciadObstaculos/3 + rangObstaculos[i], obstaculoArriba.getWidth(), obstaculoArriba.getHeight());
+			myRenderer.rect(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2- espaciadObstaculos/3 - obstaculoAbajo.getHeight()+rangObstaculos[i], obstaculoAbajo.getWidth(), obstaculoAbajo.getHeight());
 
 			if(Intersector.overlaps(circuloPersonaje, rectanguloObstaculoInferior[i] )){
 				Gdx.app.log("Colision", "Has chocado por abajo");
@@ -268,7 +273,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 			}
 		}
 
-		//myRenderer.end();
+		myRenderer.end();
 
 		miBatch.end();
 	}
