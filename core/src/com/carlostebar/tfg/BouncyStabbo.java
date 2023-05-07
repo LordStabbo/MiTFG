@@ -34,6 +34,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 	long personajeCoordY = 0;
 	//Creo un Circle para las colisiones del personaje
 	Circle circuloPersonaje;
+	float deltaTime = 0;
 
 
 	//Hago una variable para definir el espacio entre obstaculos y otro para el rango de espacio
@@ -114,6 +115,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 	//metodo on create que se arranca al iniciar
 	@Override
 	public void create () {
+
 		//Creo el SpriteBatch de texturas
 		miBatch = new SpriteBatch();
 		//Instancio la textura del fondo
@@ -121,11 +123,11 @@ public class BouncyStabbo extends ApplicationAdapter {
 		//Instancio la textura del personaje
 
 		personajePrincipal= new Texture[5];
-			personajePrincipal[0] = new Texture("ninja_salto1.png");
-			personajePrincipal[1] = new Texture("ninja_salto2.png");
-			personajePrincipal[2] = new Texture("ninja_salto3.png");
-			personajePrincipal[3] = new Texture("ninja_salto4.png");
-			personajePrincipal[4] = new Texture("ninja_salto5.png");
+		personajePrincipal[0] = new Texture("ninja_salto1.png");
+		personajePrincipal[1] = new Texture("ninja_salto2.png");
+		personajePrincipal[2] = new Texture("ninja_salto3.png");
+		personajePrincipal[3] = new Texture("ninja_salto4.png");
+		personajePrincipal[4] = new Texture("ninja_salto5.png");
 
 
 
@@ -158,6 +160,12 @@ public class BouncyStabbo extends ApplicationAdapter {
 	//renderizo las texturas cargadas en el metodo create
 	@Override
 	public void render () {
+		//Instancio los DeltaTimes para los objetos en movimiento
+		deltaTime = Gdx.graphics.getDeltaTime();
+		movimientoPersonaje += velocidadCaida * deltaTime;
+		circuloPersonaje.y += velocidadCaida * deltaTime;
+
+
 
 		miBatch.begin();
 
@@ -204,7 +212,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 
 					}
 
-					
+
 				}
 
 				//Pinto los obstaculos
@@ -221,8 +229,8 @@ public class BouncyStabbo extends ApplicationAdapter {
 			// movimiento hacia abajo  se detiene de manera que parece que el suelo ha parado la
 			// caida del personaje
 			if(personajeCoordY > 0 || movimientoPersonaje < 0){
-				plantaSuelo();
-
+				personajeCoordY += movimientoPersonaje * deltaTime;
+					plantaSuelo();
 			}
 		}else if(estadoEjecucion == 0){
 			if(Gdx.input.justTouched()){
@@ -231,12 +239,14 @@ public class BouncyStabbo extends ApplicationAdapter {
 		}else if(estadoEjecucion == 2){
 			miFuente.draw(miBatch, "Perdiste", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-				Gdx.app.log("----------------------------", "Perdiste");
-				estadoEjecucion = 1;
-				puntuacion = 0;
-				movimientoPersonaje = 0;
-				instanciaPartida();
+			Gdx.app.log("----------------------------", "Perdiste");
+			estadoEjecucion = 1;
+			puntuacion = 0;
+			movimientoPersonaje = 0;
+			instanciaPartida();
 		}
+
+		personajeCoordY += movimientoPersonaje * deltaTime;
 
 		//Pinto el personaje en todas sus fases
 		miBatch.draw(personajePrincipal[controlPersonje], Gdx.graphics.getWidth() / 2, personajeCoordY);
