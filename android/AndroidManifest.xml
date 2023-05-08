@@ -13,16 +13,24 @@
         android:appCategory="game"
         android:label="@string/app_name"
         tools:ignore="UnusedAttribute">
+
+        <activity
+            android:name="com.carlostebar.tfg.MenuPrincipal"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name="com.carlostebar.tfg.AndroidLauncher"
             android:label="@string/app_name" 
             android:screenOrientation="portrait"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
     </application>
 

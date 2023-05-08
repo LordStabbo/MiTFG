@@ -85,4 +85,8 @@ task run(type: Exec) {
     commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.carlostebar.tfg/com.carlostebar.tfg.AndroidLauncher'
 }
 
+dependencies {
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+}
+
 eclipse.project.name = appName + "-android"
