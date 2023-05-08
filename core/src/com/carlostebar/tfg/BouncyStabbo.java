@@ -74,6 +74,9 @@ public class BouncyStabbo extends ApplicationAdapter {
 	Music musicaFondo;
 	Sound sonidoSalto;
 
+	//Con esta variable hago que el testing de colisiones este activado o no en partida
+	boolean testing = false;
+
 	//Hago un metodo que recorra en bucle el estado del personaje para usarlo en el metodo render
 	public void recorreEstados(){
 		if(controlPersonje == 0){
@@ -178,7 +181,10 @@ public class BouncyStabbo extends ApplicationAdapter {
 
 
 			recorreEstados();
-			//Pinto el fondo
+
+
+
+
 			miBatch.draw(fondo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 
@@ -254,26 +260,25 @@ public class BouncyStabbo extends ApplicationAdapter {
 		miFuente.draw(miBatch, String.valueOf(puntuacion), Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		//Inicio el shapeRenderer pasandole por parametro que rellene las texturas con las que trabaja
 
-		myRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		myRenderer.setColor(new Color(0f, 0f, 1f, 0.5f));
 
+		circuloPersonaje.set(Gdx.graphics.getWidth() / 2 + personajePrincipal[controlPersonje].getWidth() / 2, personajeCoordY + personajePrincipal[controlPersonje].getHeight() / 2, personajePrincipal[controlPersonje].getWidth() / 2);
 
-
-
-		circuloPersonaje.set(Gdx.graphics.getWidth()/2+personajePrincipal[controlPersonje].getWidth()/2, personajeCoordY+ personajePrincipal[controlPersonje].getHeight()/2, personajePrincipal[controlPersonje].getWidth()/2);
-
+		if(testing == true) {
+			myRenderer.begin(ShapeRenderer.ShapeType.Filled);
+			myRenderer.setColor(new Color(0f, 0f, 1f, 0.5f));
 
 		//--------------Toda esta sección se ha utilizado para testear las colisiones entre objetos
 		// 			pero lo conservo en el codigo por intereses academicos
 
 
 		myRenderer.circle(circuloPersonaje.x, circuloPersonaje.y, circuloPersonaje.radius);
-
+		}
 
 		for(int i = 0; i< numObstaculos; i++){
-			myRenderer.rect(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2+ espaciadObstaculos/3 + rangObstaculos[i], obstaculoArriba.getWidth(), obstaculoArriba.getHeight());
-			myRenderer.rect(obstaculoCoordX[i],Gdx.graphics.getHeight() / 2- espaciadObstaculos/3 - obstaculoAbajo.getHeight()+rangObstaculos[i], obstaculoAbajo.getWidth(), obstaculoAbajo.getHeight());
-
+			if(testing == true) {
+				myRenderer.rect(obstaculoCoordX[i], Gdx.graphics.getHeight() / 2 + espaciadObstaculos / 3 + rangObstaculos[i], obstaculoArriba.getWidth(), obstaculoArriba.getHeight());
+				myRenderer.rect(obstaculoCoordX[i], Gdx.graphics.getHeight() / 2 - espaciadObstaculos / 3 - obstaculoAbajo.getHeight() + rangObstaculos[i], obstaculoAbajo.getWidth(), obstaculoAbajo.getHeight());
+			}
 			if(Intersector.overlaps(circuloPersonaje, rectanguloObstaculoInferior[i] )){
 				Gdx.app.log("Colision", "Has chocado por abajo");
 				estadoEjecucion = 2;
@@ -282,8 +287,9 @@ public class BouncyStabbo extends ApplicationAdapter {
 				estadoEjecucion = 2;
 			}
 		}
-
-		myRenderer.end();
+		if(testing == true) {
+			myRenderer.end();
+		}
 
 		miBatch.end();
 	}
