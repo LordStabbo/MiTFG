@@ -7,7 +7,11 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 public class MenuPrincipal extends AppCompatActivity {
+
+    private TextInputEditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,6 +19,11 @@ public class MenuPrincipal extends AppCompatActivity {
         setContentView(R.layout.menu_principal);
 
         Button botonInsertar = findViewById(R.id.botonJugar);
+
+        editText = findViewById(R.id.miTextfield);
+
+        String nombreJugador = editText.getText().toString();
+
         botonInsertar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -15,6 +14,8 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Random;
+
+
 
 public class BouncyStabbo extends ApplicationAdapter {
 	//Instancio una variable que con la que manejar el estado de la ejecucion
@@ -167,8 +168,6 @@ public class BouncyStabbo extends ApplicationAdapter {
 		deltaTime = Gdx.graphics.getDeltaTime();
 		movimientoPersonaje += velocidadCaida * deltaTime;
 		circuloPersonaje.y += velocidadCaida * deltaTime;
-
-
 
 		miBatch.begin();
 

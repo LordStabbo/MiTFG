@@ -87,6 +87,7 @@ task run(type: Exec) {
 
 dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.android.material:material:1.0.0'
 }
 
 eclipse.project.name = appName + "-android"
