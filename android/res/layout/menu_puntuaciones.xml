@@ -8,11 +8,14 @@
     android:theme="@style/miTema">
 
 
-<de.codecrafters.tableview.TableView
-    android:id="@+id/tablaPuntuaciones"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    style="@style/BotonMorado">
+    <de.codecrafters.tableview.TableView
+        android:id="@+id/tablaPuntuaciones"
+        style="@style/BotonMorado"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</de.codecrafters.tableview.TableView>
+    </de.codecrafters.tableview.TableView>
 </androidx.constraintlayout.widget.ConstraintLayout>
