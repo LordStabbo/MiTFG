@@ -11,14 +11,10 @@ public class ConexionDatabase extends SQLiteOpenHelper {
 
     final String leatherBoard = "CREATE TABLE leatherboard (" +
             "  idPuntuacion INTEGER," +
-            "  nombreJugador TEXT," +
+            "  nombreJugador TEXT(5)," +
             "  puntuacion INTEGER," +
             "  personaje TEXT" +
-            "); " +
-            "INSERT INTO leatherboard VALUES" +
-            "(1, 'Saul', 130, 'Stabbo')," +
-            "(2, 'Walt', 170, 'Stabbo')," +
-            "(3, 'Hank', 130, 'Stabbo');";
+            "); ";
 
     public ConexionDatabase(Context context, String nombre, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, nombre, factory, version);
@@ -27,6 +23,10 @@ public class ConexionDatabase extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(leatherBoard);
+
+        db.execSQL("INSERT INTO leatherboard VALUES (1, 'Saul', 130, 'Stabbo');");
+        db.execSQL("INSERT INTO leatherboard VALUES (2, 'Walt', 170, 'Stabbo');");
+        db.execSQL("INSERT INTO leatherboard VALUES (3, 'Hank', 130, 'Stabbo');");
     }
 
     @Override
