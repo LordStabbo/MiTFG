@@ -8,6 +8,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.google.gms:google-services:4.3.10' // Add this line if using Google Play services
     }
 }
 
@@ -42,14 +43,37 @@ project(":android") {
 
     configurations { natives }
 
-    dependencies {
-        implementation project(":core")
-        api "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
-        api "androidx.appcompat:appcompat:$appCompatVersion"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
+    android {
+        compileSdkVersion 31
+        buildToolsVersion "31.0.0"
+
+        defaultConfig {
+            applicationId "your.package.name"
+            minSdkVersion 21
+            targetSdkVersion 31
+            versionCode 1
+            versionName "1.0"
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        }
+
+        buildTypes {
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            }
+        }
+
+        dependencies {
+            implementation project(":core")
+            implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
+            implementation "androidx.appcompat:appcompat:$appCompatVersion"
+            natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
+            natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
+            natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
+            natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
+            implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+            implementation 'de.codecrafters.tableview:tableview:2.8.0'
+        }
     }
 }
 
@@ -57,7 +81,7 @@ project(":core") {
     apply plugin: "java-library"
 
     dependencies {
-        implementation group: 'com.google.android.material', name: 'material', version: '1.1.0-alpha05'
-        api "com.badlogicgames.gdx:gdx:$gdxVersion"
+        implementation group: 'com.google.android.material', name: 'material', version: '1.1.0'
+        implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
     }
 }

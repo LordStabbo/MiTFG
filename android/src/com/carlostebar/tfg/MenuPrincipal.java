@@ -19,10 +19,20 @@ public class MenuPrincipal extends AppCompatActivity {
         setContentView(R.layout.menu_principal);
 
         Button botonInsertar = findViewById(R.id.botonJugar);
+        Button botonLeather = findViewById(R.id.botonLeatherBoard);
 
         editText = findViewById(R.id.miTextfield);
 
         String nombreJugador = editText.getText().toString();
+
+
+        botonLeather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MenuPrincipal.this,MenuPuntuaciones.class);
+                startActivity(intent);
+            }
+        });
 
         botonInsertar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,5 +43,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
 
         });
+
+
     }
 }
