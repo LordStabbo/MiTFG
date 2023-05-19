@@ -44,6 +44,8 @@
 
 
     <!--Creo los Buttons-->
+
+
     <Button
         android:id="@+id/botonJugar"
         style="@style/BotonMorado"
@@ -58,8 +60,7 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.584" />
-
+        app:layout_constraintVertical_bias="0.675" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/miTextfield"
