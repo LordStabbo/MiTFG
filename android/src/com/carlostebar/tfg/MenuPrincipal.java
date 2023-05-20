@@ -1,6 +1,7 @@
 package com.carlostebar.tfg;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,13 +18,22 @@ public class MenuPrincipal extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Con esto importo la letra estilo Pixel de la app
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fuentes/silkscreen.ttf");
+
+        //Impido que la actividad tenga modo oscuro
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.menu_principal);
 
+        //Instancio los botones que lanzan el juego y las leatherboards, asi como el editext del nombre
         Button botonInsertar = findViewById(R.id.botonJugar);
         Button botonLeather = findViewById(R.id.botonLeatherBoard);
 
         editText = findViewById(R.id.miTextfield);
+
+        editText.setTypeface(typeface);
+        botonInsertar.setTypeface(typeface);
+        botonLeather.setTypeface(typeface);
 
         String nombreJugador = editText.getText().toString();
 
