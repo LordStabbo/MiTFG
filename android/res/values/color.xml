@@ -2,7 +2,7 @@
 <resources>
     <color name="ic_background_color">#FFFFFFFF</color>
     <color name="purple_500">#6200EE</color>
-    <color name="miFonfo">#000228</color>
+    <color name="miFonfo">#00002c</color>
     <color name="purple_700">#3700B3</color>
     <color name="teal_200">#03DAC5</color>
     <color name="teal_700">#018786</color>

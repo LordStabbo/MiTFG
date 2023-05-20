@@ -34,7 +34,7 @@ public class MiTableHeaderAdapter extends TableHeaderAdapter {
         textView.setTypeface(typeface);
 
         // Cambio las propiedades del Header
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 32);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
         textView.setTypeface(typeface);
         textView.setTextColor(Color.parseColor("#ff00ff"));
         textView.setBackgroundColor(Color.parseColor("#000228"));

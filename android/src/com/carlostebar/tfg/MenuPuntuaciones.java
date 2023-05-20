@@ -47,7 +47,7 @@ public class MenuPuntuaciones extends AppCompatActivity {
         TableView miVista = findViewById(R.id.tablaPuntuaciones);
 
 
-        String[] titulos = {"Pos.","Name", "Pts", "Char"};
+        String[] titulos = {"Pos","Name", "Pts", "Char"};
 
 
         MiTableAdapter miAdapter = new MiTableAdapter(this, relleno);
