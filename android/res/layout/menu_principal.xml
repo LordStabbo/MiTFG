@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MenuPrincipal"
-    android:theme="@style/miTema">
+    android:theme="@style/miTema"
+    android:background="@color/black">
 
 
     <!--Creo las constraints de mi layout-->
@@ -83,8 +84,18 @@
         style="@style/BotonMorado"
         android:layout_width="351dp"
         android:layout_height="66dp"
-        android:hint="Enter your name"
-        android:theme="@style/miTema"
+        android:hint="ENTER YOUR NAME"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#B714D3"
+        android:textColorHint="#B714D3"
+        android:textIsSelectable="true"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:theme="@style/BotonMorado"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
