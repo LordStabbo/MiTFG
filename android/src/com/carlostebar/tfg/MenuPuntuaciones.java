@@ -15,6 +15,11 @@ public class MenuPuntuaciones extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_puntuaciones);
 
+
+        ModeloDataBase miModelo = new ModeloDataBase();
+
+
+
         TableView miVista = findViewById(R.id.tablaPuntuaciones);
         String[] titulos = {"Nombre", "Puntuacion", "Personaje"};
         String[][] relleno ={{"Saul", "120", "Stabbo"},{"Saul", "120", "Stabbo"},{"Saul", "120", "Stabbo"}};

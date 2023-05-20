@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class ConexionDatabase extends SQLiteOpenHelper {
+public class DatabaseController extends SQLiteOpenHelper {
 
     // Creo la base de datos de jugadores
 
@@ -16,8 +16,8 @@ public class ConexionDatabase extends SQLiteOpenHelper {
             "  personaje TEXT" +
             "); ";
 
-    public ConexionDatabase(Context context, String nombre, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, nombre, factory, version);
+    public DatabaseController(Context context) {
+        super(context, "LeatherBoardDatabase", null, 1);
     }
 
     @Override
