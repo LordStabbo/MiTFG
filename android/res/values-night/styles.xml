@@ -26,7 +26,7 @@
 
     <!-- Purple button style -->
     <style name="BotonMorado" parent="Widget.MaterialComponents.Button">
-        <!--item name="android:background">@drawable/purple_button_background</item-->
+        <item name="android:background">@drawable/boton_redondo</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">18sp</item>
         <item name="android:padding">12dp</item>
