@@ -70,12 +70,15 @@ public class MenuPrincipal extends AppCompatActivity {
         botonLeather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(videoView.isPlaying()){
+                    Toast.makeText(MenuPrincipal    .this, "Loading Database", Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent intent = new Intent(MenuPrincipal.this,MenuPuntuaciones.class);
+                    startActivity(intent);
+                }
 
 
 
-
-                Intent intent = new Intent(MenuPrincipal.this,MenuPuntuaciones.class);
-                startActivity(intent);
             }
         });
 

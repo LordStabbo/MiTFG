@@ -1,8 +1,10 @@
 package com.carlostebar.tfg;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +30,9 @@ public class MenuPuntuaciones extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.menu_puntuaciones);
 
+        //Hago el boton Back
+        Button botonAtras = findViewById(R.id.botonBack);
+
         //Instancio el modelo de mi base de datos, despues a partir de el uso el metodo que devuelve
         //un arraylist de Stringns, que despues convierto en un Array bidimensional de Strings, que es
         //lo que pide el TableView
@@ -50,6 +55,15 @@ public class MenuPuntuaciones extends AppCompatActivity {
 
         miVista.setHeaderAdapter(miHeaderAdapter);
         miVista.setDataAdapter(miAdapter);
+
+        botonAtras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MenuPuntuaciones.this,MenuPrincipal.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }
