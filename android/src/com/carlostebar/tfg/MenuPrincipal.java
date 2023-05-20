@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,6 +52,7 @@ public class MenuPrincipal extends AppCompatActivity {
         videoView.setOnCompletionListener(mp -> {
             // Video playback has finished
             videoView.setVisibility(View.GONE);
+
         });
 
         editText = findViewById(R.id.miTextfield);
@@ -80,8 +82,12 @@ public class MenuPrincipal extends AppCompatActivity {
         botonInsertar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MenuPrincipal.this, AndroidLauncher.class);
-                startActivity(intent);
+                if(editText.getText() == null){
+                    Intent intent = new Intent(MenuPrincipal.this,AndroidLauncher.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(MenuPrincipal    .this, "Introduzca un nombre de Jugador", Toast.LENGTH_SHORT).show();
+                }
             }
 
 
