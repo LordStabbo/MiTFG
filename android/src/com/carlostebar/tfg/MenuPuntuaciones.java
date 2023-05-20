@@ -42,12 +42,13 @@ public class MenuPuntuaciones extends AppCompatActivity {
         TableView miVista = findViewById(R.id.tablaPuntuaciones);
 
 
-        String[] titulos = {"Nombre", "Puntuacion", "Personaje"};
+        String[] titulos = {"Pos.","Name", "Pts", "Char"};
 
 
         MiTableAdapter miAdapter = new MiTableAdapter(this, relleno);
+        MiTableHeaderAdapter miHeaderAdapter = new MiTableHeaderAdapter(this, titulos);
 
-        miVista.setHeaderAdapter(new SimpleTableHeaderAdapter(this, titulos));
+        miVista.setHeaderAdapter(miHeaderAdapter);
         miVista.setDataAdapter(miAdapter);
 
     }

@@ -34,17 +34,15 @@ public class MiTableAdapter extends TableDataAdapter<String[]> {
         // y las personalizo
         if (rowIndex % 2 == 0) {
             // Las filas pares de un color
-            textView.setBackgroundColor(Color.parseColor("#CCCCCC"));
             textView.setTypeface(typeface);
-            textView.setTextColor(Color.parseColor("#ff00ff"));
-            textView.setTextSize(24);
+            textView.setTextColor(Color.parseColor("#05DBF2"));
+            textView.setTextSize(22);
         } else {
             // y las impares de otro
-            textView.setBackgroundColor(Color.parseColor("#FFFFFF"));
             textView.setTypeface(typeface);
             textView.setTextColor(Color.parseColor(
                     "#05DBF2"));
-            textView.setTextSize(24);
+            textView.setTextSize(22);
         }
 
 

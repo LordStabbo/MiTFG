@@ -45,17 +45,17 @@ public class ModeloDataBase {
         Cursor cursor =  sqld.query(nombreTabla, columnas, null,null, null, null,orden);
 
         List<String[]> tuplas = new ArrayList<>();
-
+        int posicion = 0;
         try {
             if (cursor != null) {
                 while(cursor.moveToNext()){
-
+                    posicion ++;
                     int idPuntuacion = cursor.getInt(cursor.getColumnIndexOrThrow("idPuntuacion"));
                     String nombreJugador = cursor.getString(cursor.getColumnIndexOrThrow("nombreJugador"));
                     int puntuacion = cursor.getInt(cursor.getColumnIndexOrThrow("puntuacion"));
                     String personaje = cursor.getString(cursor.getColumnIndexOrThrow("personaje"));
 
-                    String [] tupla = {String.valueOf(idPuntuacion), nombreJugador, String.valueOf(puntuacion), personaje};
+                    String [] tupla = {String.valueOf(posicion), nombreJugador, String.valueOf(puntuacion), personaje};
                     tuplas.add(tupla);
 
                 }
