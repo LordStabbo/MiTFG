@@ -2,9 +2,12 @@ package com.carlostebar.tfg;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.MediaController;
+import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -14,6 +17,14 @@ import com.google.android.material.textfield.TextInputEditText;
 public class MenuPrincipal extends AppCompatActivity {
 
     private TextInputEditText editText;
+    private VideoView videoView;
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        videoView.setVisibility(View.GONE);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +39,19 @@ public class MenuPrincipal extends AppCompatActivity {
         //Instancio los botones que lanzan el juego y las leatherboards, asi como el editext del nombre
         Button botonInsertar = findViewById(R.id.botonJugar);
         Button botonLeather = findViewById(R.id.botonLeatherBoard);
+
+        //Creo Un videoView  para hacer la animacion de entrada
+        videoView = findViewById(R.id.videoView);
+        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.intro;;
+        videoView.setVideoURI(Uri.parse(videoPath));
+
+
+
+        videoView.start();
+        videoView.setOnCompletionListener(mp -> {
+            // Video playback has finished
+            videoView.setVisibility(View.GONE);
+        });
 
         editText = findViewById(R.id.miTextfield);
 
@@ -62,6 +86,9 @@ public class MenuPrincipal extends AppCompatActivity {
 
 
         });
+
+
+
 
 
     }
