@@ -32,8 +32,11 @@ public class MenuPrincipal extends AppCompatActivity {
         editText = findViewById(R.id.miTextfield);
 
         editText.setTypeface(typeface);
+        editText.setTextSize(30);
         botonInsertar.setTypeface(typeface);
         botonLeather.setTypeface(typeface);
+        botonInsertar.setTextSize(24);
+        botonLeather.setTextSize(24);
 
         String nombreJugador = editText.getText().toString();
 
