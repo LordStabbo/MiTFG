@@ -21,8 +21,7 @@ public class MenuPuntuaciones extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Con esto importo la letra estilo Pixel de la app
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "fuentes/silkscreen.ttf");
+
 
         //Impido que la actividad tenga modo oscuro
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -46,8 +45,10 @@ public class MenuPuntuaciones extends AppCompatActivity {
         String[] titulos = {"Nombre", "Puntuacion", "Personaje"};
 
 
+        MiTableAdapter miAdapter = new MiTableAdapter(this, relleno);
+
         miVista.setHeaderAdapter(new SimpleTableHeaderAdapter(this, titulos));
-        miVista.setDataAdapter(new SimpleTableDataAdapter(this, relleno));
+        miVista.setDataAdapter(miAdapter);
 
     }
 }
