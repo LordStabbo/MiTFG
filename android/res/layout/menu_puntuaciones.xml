@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MenuPuntuaciones"
-    android:theme="@style/miTema">
+    android:theme="@style/miTema"
+    android:background="@color/miFonfo">
 
 
     <de.codecrafters.tableview.TableView
@@ -13,9 +14,13 @@
         style="@style/BotonMorado"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/miFonfo"
+        android:backgroundTint="@color/miFonfo"
+        android:soundEffectsEnabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
     </de.codecrafters.tableview.TableView>
 </androidx.constraintlayout.widget.ConstraintLayout>

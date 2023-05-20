@@ -82,11 +82,13 @@ public class MenuPrincipal extends AppCompatActivity {
         botonInsertar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(editText.getText() == null){
+                String nombreJugador = String.valueOf(editText.getText());
+                if(nombreJugador.isEmpty()){
+                    Toast.makeText(MenuPrincipal    .this, "Introduzca un nombre de Jugador", Toast.LENGTH_SHORT).show();
+
+                }else{
                     Intent intent = new Intent(MenuPrincipal.this,AndroidLauncher.class);
                     startActivity(intent);
-                }else{
-                    Toast.makeText(MenuPrincipal    .this, "Introduzca un nombre de Jugador", Toast.LENGTH_SHORT).show();
                 }
             }
 
