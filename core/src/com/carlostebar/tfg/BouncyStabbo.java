@@ -69,7 +69,9 @@ public class BouncyStabbo extends ApplicationAdapter {
 	//Creo una variable en la que almacenar los puntos del jugador y un BitMapFont para pintarlos
 	// en pantalla
 	int puntuacion = 0;
+	int puntuacionImprimir;
 	BitmapFont miFuente;
+	BitmapFont miFuenteHint;
 
 	//Instancio la musica de la partida y los sonidos que voy a usar
 	Music musicaFondo;
@@ -147,9 +149,10 @@ public class BouncyStabbo extends ApplicationAdapter {
 		rectanguloObstaculoSuperior = new Rectangle[numObstaculos];
 		rectanguloObstaculoInferior = new Rectangle[numObstaculos];
 
+
 		//Instancio mi fuente
 		miFuente = new BitmapFont();
-		miFuente.setColor(Color.PURPLE);
+		miFuente.setColor(Color.valueOf("05DBF2"));
 		miFuente.getData().setScale(12);
 
 		sonidoSalto = Gdx.audio.newSound(Gdx.files.internal("Jump.wav"));
@@ -159,6 +162,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 		myRenderer = new ShapeRenderer();
 
 		ponMusica();
+
 	}
 
 	//renderizo las texturas cargadas en el metodo create
@@ -174,6 +178,8 @@ public class BouncyStabbo extends ApplicationAdapter {
 		//Con esto simulo la gravedad, de manera que la coordenada Y del personaje decrece
 		// exponencialmente, dando la sensación de que está cayendo
 
+
+		puntuacionImprimir = puntuacion/100;
 		if(estadoEjecucion == 1) {
 
 			desplazamiento++;
@@ -213,7 +219,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 					// por lo que el jugador ya habría perdido para ese momento
 
 					if(obstaculoCoordX[i] <= Gdx.graphics.getWidth()/2 ){
-						puntuacion+= 10;
+						puntuacion+= 1;
 
 					}
 
@@ -238,6 +244,11 @@ public class BouncyStabbo extends ApplicationAdapter {
 					plantaSuelo();
 			}
 		}else if(estadoEjecucion == 0){
+			miFuenteHint = new BitmapFont();
+			miFuenteHint.setColor(Color.valueOf("05DBF2"));
+			miFuenteHint.getData().setScale(7);
+			miBatch.draw(fondo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			miFuenteHint.draw(miBatch, "Touch the screen\n      to JUMP", Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/8);
 			if(Gdx.input.justTouched()){
 				estadoEjecucion = 1;
 			}
@@ -256,7 +267,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 		//Pinto el personaje en todas sus fases
 		miBatch.draw(personajePrincipal[controlPersonje], Gdx.graphics.getWidth() / 2, personajeCoordY);
 
-		miFuente.draw(miBatch, String.valueOf(puntuacion), Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+		miFuente.draw(miBatch, String.valueOf(puntuacionImprimir), Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/2);
 		//Inicio el shapeRenderer pasandole por parametro que rellene las texturas con las que trabaja
 
 
@@ -264,7 +275,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 
 		if(testing == true) {
 			myRenderer.begin(ShapeRenderer.ShapeType.Filled);
-			myRenderer.setColor(new Color(0f, 0f, 1f, 0.5f));
+			myRenderer.setColor(new Color(1f, 0f, 1f, 0.5f));
 
 		//--------------Toda esta sección se ha utilizado para testear las colisiones entre objetos
 		// 			pero lo conservo en el codigo por intereses academicos
