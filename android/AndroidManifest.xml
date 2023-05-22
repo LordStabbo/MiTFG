@@ -18,7 +18,9 @@
             android:name="com.carlostebar.tfg.MenuPrincipal"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:minAspectRatio="0.45"
+            android:maxAspectRatio="0.45">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -30,6 +32,9 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <meta-data
+                android:name="android.max_aspect"
+                android:value="0.45"  />
         </activity>
 
         <activity
@@ -38,6 +43,9 @@
             android:screenOrientation="portrait"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
             android:exported="true">
+            <meta-data
+                android:name="android.max_aspect"
+                android:value="0.45"  />
 
         </activity>
     </application>

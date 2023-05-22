@@ -27,7 +27,9 @@ public class BouncyStabbo extends ApplicationAdapter {
 	//Tambien instancio las texturas del fondo y de los obsrtaculos
 	Texture obstaculoArriba;
 	Texture obstaculoAbajo;
-	Texture fondo;
+	Texture fondo, fondoMuerte;
+
+	Texture yesButton, noButton;
 	Texture[] personajePrincipal;
 	//Hago variables con las que controlar las coordenadas del personaje y su velocidad
 	double movimientoPersonaje = 0;
@@ -70,8 +72,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 	// en pantalla
 	int puntuacion = 0;
 	int puntuacionImprimir;
-	BitmapFont miFuente;
-	BitmapFont miFuenteHint;
+	BitmapFont miFuente, miFuenteHint, miFuenteDeathCam;
 
 	//Instancio la musica de la partida y los sonidos que voy a usar
 	Music musicaFondo;
@@ -131,8 +132,9 @@ public class BouncyStabbo extends ApplicationAdapter {
 
 		//Creo el SpriteBatch de texturas
 		miBatch = new SpriteBatch();
-		//Instancio la textura del fondo
+		//Instancio la textura de los fondos
 		fondo = new Texture("fondo1.png");
+		fondoMuerte = new Texture("fondoDeathCam.png");
 		//Instancio la textura del personaje
 
 		personajePrincipal= new Texture[5];
@@ -191,19 +193,13 @@ public class BouncyStabbo extends ApplicationAdapter {
 
 			desplazamiento++;
 
-
 			recorreEstados();
-
-
-
 
 			miBatch.draw(fondo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 
-
-
-
 			//Con este bucle registro si el usuario toca la pantalla
+
 			if(Gdx.input.justTouched()){
 				//Esto hace que cada vez que el usuario toca, el personaje se mueve 50 uds hacia
 				// arriba
@@ -260,13 +256,36 @@ public class BouncyStabbo extends ApplicationAdapter {
 				estadoEjecucion = 1;
 			}
 		}else if(estadoEjecucion == 2){
-			miFuente.draw(miBatch, "Perdiste", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			miFuente.dispose();
+
+			miFuenteDeathCam = new BitmapFont();
+			miFuenteDeathCam.setColor(Color.valueOf("#FF0000"));
+			miFuenteDeathCam.getData().setScale(10);
+
+			miBatch.draw(fondoMuerte, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+			miFuenteDeathCam.draw(miBatch, "GAME OVER\n\n  RETRY?", Gdx.graphics.getWidth()/8, Gdx.graphics.getHeight() - miFuenteDeathCam.getLineHeight());
+
+			yesButton = new Texture("yesButton.png");
+
+			int anchoYesButton = yesButton.getWidth();
+			int altoYesButton = yesButton.getHeight();
+
+			miBatch.draw(yesButton, Gdx.graphics.getWidth()/2-yesButton.getWidth(), Gdx.graphics.getHeight()/8);
+
+			//Rectangle formaYesButton = new Rectangle(anchoYesButton, altoYesButton);
+
+
+
+
+
+
 
 			Gdx.app.log("----------------------------", "Perdiste");
-			estadoEjecucion = 1;
+			//estadoEjecucion = 1;
 			puntuacion = 0;
 			movimientoPersonaje = 0;
-			instanciaPartida();
+			//instanciaPartida();
 		}
 
 		personajeCoordY += movimientoPersonaje * deltaTime;
@@ -296,6 +315,8 @@ public class BouncyStabbo extends ApplicationAdapter {
 				myRenderer.rect(obstaculoCoordX[i], Gdx.graphics.getHeight() / 2 + espaciadObstaculos / 3 + rangObstaculos[i], obstaculoArriba.getWidth(), obstaculoArriba.getHeight());
 				myRenderer.rect(obstaculoCoordX[i], Gdx.graphics.getHeight() / 2 - espaciadObstaculos / 3 - obstaculoAbajo.getHeight() + rangObstaculos[i], obstaculoAbajo.getWidth(), obstaculoAbajo.getHeight());
 			}
+
+
 			if(Intersector.overlaps(circuloPersonaje, rectanguloObstaculoInferior[i] )){
 				Gdx.app.log("Colision", "Has chocado por abajo");
 				estadoEjecucion = 2;
