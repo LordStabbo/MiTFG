@@ -271,21 +271,21 @@ public class BouncyStabbo extends ApplicationAdapter {
 			int anchoYesButton = yesButton.getWidth();
 			int altoYesButton = yesButton.getHeight();
 
-			miBatch.draw(yesButton, Gdx.graphics.getWidth()/2-yesButton.getWidth(), Gdx.graphics.getHeight()/8);
+			miBatch.draw(yesButton, Gdx.graphics.getWidth()/2-yesButton.getWidth()/2, Gdx.graphics.getHeight()/2-yesButton.getHeight()/3);
 
-			//Rectangle formaYesButton = new Rectangle(anchoYesButton, altoYesButton);
-
-
+			Rectangle formaYesButton = new Rectangle(anchoYesButton, altoYesButton, Gdx.graphics.getWidth()/2-yesButton.getWidth()/2, Gdx.graphics.getHeight()/2-yesButton.getHeight()/3);
 
 
+				if(formaYesButton.contains(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY())){
+					estadoEjecucion = 1;
+					puntuacion = 0;
+					movimientoPersonaje = 0;
+					instanciaPartida();
+				}
 
 
 
-			Gdx.app.log("----------------------------", "Perdiste");
-			//estadoEjecucion = 1;
-			puntuacion = 0;
-			movimientoPersonaje = 0;
-			//instanciaPartida();
+
 		}
 
 		personajeCoordY += movimientoPersonaje * deltaTime;
