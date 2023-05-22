@@ -6,7 +6,8 @@ On the other side, the game has a Main Menu from where the player can launch the
 
 ## Developed by
 
-<img src="https://github.com/LordStabbo.png" alt="LordStabbo (Carlos Tebar)" width="200" style="border-radius: 50%">
+<img src="https://github.com/LordStabbo.png" alt="LordStabbo (Carlos Tebar)" width="100" style="border-radius: 50%">
+    -LordStabbo (Carlos Tébar)
 
 ## Technologies Used
 
