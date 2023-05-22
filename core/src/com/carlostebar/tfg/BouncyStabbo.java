@@ -61,6 +61,8 @@ public class BouncyStabbo extends ApplicationAdapter {
 	Rectangle [] rectanguloObstaculoSuperior;
 	Rectangle [] rectanguloObstaculoInferior;
 
+	Rectangle formaYesButton;
+
 	//hago una marca de control de la dfase del personaje principal
 	int controlPersonje = 0;
 
@@ -222,7 +224,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 					// por lo que el jugador ya habría perdido para ese momento
 
 					if(obstaculoCoordX[i] <= Gdx.graphics.getWidth()/2 ){
-						puntuacion+= 1;
+						puntuacion+= 5;
 
 					}
 
@@ -246,6 +248,10 @@ public class BouncyStabbo extends ApplicationAdapter {
 				personajeCoordY += movimientoPersonaje * deltaTime;
 					plantaSuelo();
 			}
+
+			//Pinto las Puntuaciones
+			miFuente.draw(miBatch, "Pts\n "+String.valueOf(puntuacionImprimir), Gdx.graphics.getWidth()/2-miFuente.getLineHeight()/2, Gdx.graphics.getHeight()/4-miFuente.getLineHeight()/2);
+
 		}else if(estadoEjecucion == 0){
 			miFuenteHint = new BitmapFont();
 			miFuenteHint.setColor(Color.valueOf("05DBF2"));
@@ -256,35 +262,14 @@ public class BouncyStabbo extends ApplicationAdapter {
 				estadoEjecucion = 1;
 			}
 		}else if(estadoEjecucion == 2){
-			miFuente.dispose();
+			dameMenuMuerte();
 
-			miFuenteDeathCam = new BitmapFont();
-			miFuenteDeathCam.setColor(Color.valueOf("#FF0000"));
-			miFuenteDeathCam.getData().setScale(10);
-
-			miBatch.draw(fondoMuerte, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-			miFuenteDeathCam.draw(miBatch, "GAME OVER\n\n  RETRY?", Gdx.graphics.getWidth()/8, Gdx.graphics.getHeight() - miFuenteDeathCam.getLineHeight());
-
-			yesButton = new Texture("yesButton.png");
-
-			int anchoYesButton = yesButton.getWidth();
-			int altoYesButton = yesButton.getHeight();
-
-			miBatch.draw(yesButton, Gdx.graphics.getWidth()/2-yesButton.getWidth()/2, Gdx.graphics.getHeight()/2-yesButton.getHeight()/3);
-
-			Rectangle formaYesButton = new Rectangle(anchoYesButton, altoYesButton, Gdx.graphics.getWidth()/2-yesButton.getWidth()/2, Gdx.graphics.getHeight()/2-yesButton.getHeight()/3);
-
-
-				if(formaYesButton.contains(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY())){
-					estadoEjecucion = 1;
+			if(formaYesButton.contains(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY())){
+					estadoEjecucion = 0;
 					puntuacion = 0;
 					movimientoPersonaje = 0;
 					instanciaPartida();
 				}
-
-
-
 
 		}
 
@@ -293,7 +278,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 		//Pinto el personaje en todas sus fases
 		miBatch.draw(personajePrincipal[controlPersonje], Gdx.graphics.getWidth() / 2, personajeCoordY);
 
-		miFuente.draw(miBatch, String.valueOf(puntuacionImprimir), Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/2);
+
 		//Inicio el shapeRenderer pasandole por parametro que rellene las texturas con las que trabaja
 
 
@@ -340,6 +325,25 @@ public class BouncyStabbo extends ApplicationAdapter {
 		}
 
 		Gdx.graphics.requestRendering();
+	}
+
+	private void dameMenuMuerte() {
+		miFuenteDeathCam = new BitmapFont();
+		miFuenteDeathCam.setColor(Color.valueOf("#FF0000"));
+		miFuenteDeathCam.getData().setScale(10);
+
+		miBatch.draw(fondoMuerte, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+		miFuenteDeathCam.draw(miBatch, "GAME OVER\n   "+puntuacionImprimir+" points\n   RETRY?", Gdx.graphics.getWidth()/8, Gdx.graphics.getHeight() - miFuenteDeathCam.getLineHeight());
+
+		yesButton = new Texture("yesButton.png");
+
+		int anchoYesButton = yesButton.getWidth();
+		int altoYesButton = yesButton.getHeight();
+
+		miBatch.draw(yesButton, Gdx.graphics.getWidth()/2-yesButton.getWidth()/2, Gdx.graphics.getHeight()/2-yesButton.getHeight()/3);
+
+		formaYesButton = new Rectangle(anchoYesButton, altoYesButton, Gdx.graphics.getWidth()/2-yesButton.getWidth()/2, Gdx.graphics.getHeight()/2-yesButton.getHeight()/3);
 	}
 
 }
