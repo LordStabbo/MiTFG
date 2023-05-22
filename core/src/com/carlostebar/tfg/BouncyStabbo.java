@@ -122,6 +122,13 @@ public class BouncyStabbo extends ApplicationAdapter {
 	@Override
 	public void create () {
 
+		/*Lo primero, al instanciar el juego, desactivo el renderizado constante para, posteriormente,
+		* fijar a mano los FPS en el metodo render y que, asi, los Delta Times se apliquen correctamen
+		* te, funcionando el juego igual en todos los dispositivos*/
+
+		Gdx.graphics.setContinuousRendering(false);
+		Gdx.graphics.requestRendering();
+
 		//Creo el SpriteBatch de texturas
 		miBatch = new SpriteBatch();
 		//Instancio la textura del fondo
@@ -302,6 +309,16 @@ public class BouncyStabbo extends ApplicationAdapter {
 		}
 
 		miBatch.end();
+
+
+		/*"Durmiendo" el proceso, fijo los FPS a 60 manualmente*/
+		try {
+			Thread.sleep(1000 / 60); // Sleep for approximately 16.67 milliseconds
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		Gdx.graphics.requestRendering();
 	}
 
 }
