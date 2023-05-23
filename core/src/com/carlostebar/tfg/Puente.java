@@ -1,5 +1,5 @@
 package com.carlostebar.tfg;
 
-
-public class Puente {
+public interface Puente {
+    void enviaPuntos(int puntos);
 }

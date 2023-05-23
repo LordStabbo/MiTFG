@@ -61,7 +61,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 	Rectangle [] rectanguloObstaculoSuperior;
 	Rectangle [] rectanguloObstaculoInferior;
 
-	Rectangle formaYesButton;
+	Rectangle formaYesButton, formaNoButton;
 
 	//hago una marca de control de la dfase del personaje principal
 	int controlPersonje = 0;
@@ -271,6 +271,10 @@ public class BouncyStabbo extends ApplicationAdapter {
 					instanciaPartida();
 				}
 
+			if(formaNoButton.contains(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY())){
+				System.exit(0);
+			}
+
 		}
 
 		personajeCoordY += movimientoPersonaje * deltaTime;
@@ -337,13 +341,20 @@ public class BouncyStabbo extends ApplicationAdapter {
 		miFuenteDeathCam.draw(miBatch, "GAME OVER\n   "+puntuacionImprimir+" points\n   RETRY?", Gdx.graphics.getWidth()/8, Gdx.graphics.getHeight() - miFuenteDeathCam.getLineHeight());
 
 		yesButton = new Texture("yesButton.png");
+		noButton = new Texture("noButton.png");
 
 		int anchoYesButton = yesButton.getWidth();
 		int altoYesButton = yesButton.getHeight();
 
-		miBatch.draw(yesButton, Gdx.graphics.getWidth()/2-yesButton.getWidth()/2, Gdx.graphics.getHeight()/2-yesButton.getHeight()/3);
+		int anchoNoButton = noButton.getWidth();
+		int altoNoButton = noButton.getHeight();
 
-		formaYesButton = new Rectangle(anchoYesButton, altoYesButton, Gdx.graphics.getWidth()/2-yesButton.getWidth()/2, Gdx.graphics.getHeight()/2-yesButton.getHeight()/3);
+		miBatch.draw(yesButton, Gdx.graphics.getWidth() / 2 - yesButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - yesButton.getHeight() / 2 - yesButton.getHeight());
+		miBatch.draw(noButton, Gdx.graphics.getWidth() / 2 - noButton.getWidth() / 2, (Gdx.graphics.getHeight() / 2 - noButton.getHeight() / 3) - yesButton.getHeight() * 2);
+
+		formaYesButton = new Rectangle(Gdx.graphics.getWidth() / 2 - anchoYesButton / 2, Gdx.graphics.getHeight() / 2 - altoYesButton / 3 - altoYesButton, anchoYesButton, altoYesButton);
+		formaNoButton = new Rectangle(Gdx.graphics.getWidth() / 2 - anchoNoButton / 2, (Gdx.graphics.getHeight() / 2 - altoNoButton / 3) - noButton.getHeight() * 2, anchoNoButton, altoNoButton);
+
 	}
 
 }
