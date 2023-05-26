@@ -80,6 +80,10 @@ public class BouncyStabbo extends ApplicationAdapter {
 	Music musicaFondo;
 	Sound sonidoSalto;
 
+	public int damePuntuacionImprimir() {
+		return puntuacionImprimir;
+	}
+
 	//Con esta variable hago que el testing de colisiones este activado o no en partida
 	boolean testing = false;
 
@@ -272,7 +276,12 @@ public class BouncyStabbo extends ApplicationAdapter {
 				}
 
 			if(formaNoButton.contains(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY())){
-				System.exit(0);
+
+				this.puntuacionImprimir = puntuacionImprimir;
+				//System.exit(0);
+				System.out.println("------------------"+damePuntuacionImprimir());
+				this.dispose();
+
 			}
 
 		}
