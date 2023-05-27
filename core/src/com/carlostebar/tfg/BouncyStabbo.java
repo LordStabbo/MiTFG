@@ -79,6 +79,10 @@ public class BouncyStabbo extends ApplicationAdapter {
 	Rectangle[] rectanguloObstaculoSuperior;
 	Rectangle[] rectanguloObstaculoInferior;
 
+	// Con esta variable hago que el testing de colisiones este activado o no en
+	// partida
+	boolean testing = false;
+
 	Rectangle formaYesButton, formaNoButton, formaMusicButton;
 
 	// hago una marca de control de la dfase del personaje principal
@@ -108,9 +112,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 		return puntuacionImprimir;
 	}
 
-	// Con esta variable hago que el testing de colisiones este activado o no en
-	// partida
-	boolean testing = false;
+
 
 	// Hago un setter para el puente
 	public void tomaPuenteCore(Puente miPuente) {
@@ -120,17 +122,16 @@ public class BouncyStabbo extends ApplicationAdapter {
 	// Hago un metodo que recorra en bucle el estado del personaje para usarlo en el
 	// metodo render
 	public void recorreEstados() {
-		if (controlPersonje == 0) {
-			controlPersonje = 1;
-		} else if (controlPersonje == 1) {
-			controlPersonje = 2;
-		} else if (controlPersonje == 2) {
-			controlPersonje = 3;
-		} else if (controlPersonje == 3) {
-			controlPersonje = 4;
-		} else {
-			controlPersonje = 0;
+		int numStates = 5; // Number of states (including 0)
+		int nextState = (controlPersonje + 1) % numStates; // Calculate the next state
+
+		try {
+			Thread.sleep(20); // Pause for half a second
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+
+		controlPersonje = nextState; // Update the controlPersonje value
 	}
 
 
