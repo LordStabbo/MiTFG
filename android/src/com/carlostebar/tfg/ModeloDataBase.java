@@ -4,6 +4,7 @@ package com.carlostebar.tfg;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
@@ -69,6 +70,22 @@ public class ModeloDataBase {
         }
 
         return tuplas;
+    }
+
+    int insertaPuntos(Context context, PojoPuntuaciones misPuntos){
+        int vuelta = 0;
+
+        String insertaPuntos ="INSERT INTO leatherboard (idPuntuacion, nombreJugador, puntuacion, personaje)" +
+                "VALUES ("+misPuntos.getId()+", ' "+misPuntos.getNombre()+" ', "+misPuntos.getPuntuacion()+" , ' "+misPuntos.getPersonaje()+" ' );";
+
+        SQLiteDatabase sqldb = this.dameConn(context);
+
+        try{
+            vuelta = 1;
+            sqldb.execSQL(insertaPuntos);
+        }catch (SQLException e){}
+
+        return vuelta;
     }
 
 

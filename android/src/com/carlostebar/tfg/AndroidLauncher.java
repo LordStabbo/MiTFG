@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -37,6 +38,21 @@ public class AndroidLauncher extends AndroidApplication implements Puente {
 		System.out.println("-------------Puntos salvados en la capa android-------------------"+puntos);
 		Log.w("PUNTOS","-------------Puntos salvados en la capa android-------------------"+puntos);
 		Log.w("NOMBRE","-------------Nombre salvados en la capa android-------------------"+nombreJugador);
+
+		ModeloDataBase miModelo = new ModeloDataBase();
+
+		PojoPuntuaciones misPuntos = new PojoPuntuaciones(1, nombreJugador, puntos, "stabbo");
+
+		int vueltaInsert = miModelo.insertaPuntos(AndroidLauncher.this, misPuntos);
+
+		if(vueltaInsert == 1){
+			Toast.makeText(AndroidLauncher.this, "Consulta" +
+					" Correcta", Toast.LENGTH_SHORT).show();
+		}else {
+			Toast.makeText(AndroidLauncher.this, "La Consulta " +
+					"no ha funcionado", Toast.LENGTH_SHORT).show();
+		}
+
 		finish();
 	}
 }

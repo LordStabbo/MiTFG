@@ -7,6 +7,13 @@ public class PojoPuntuaciones {
     private int puntuacion;
     private String nombrePersonaje;
 
+    public PojoPuntuaciones(int id, String nombre, int puntuacion, String nombrePersonaje) {
+        this.id = id;
+        this.nombre=nombre;
+        this.puntuacion=puntuacion;
+        this.nombrePersonaje = nombrePersonaje;
+    }
+
     public int getId() {
         return id;
     }
