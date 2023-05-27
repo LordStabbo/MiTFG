@@ -57,6 +57,8 @@ public class BouncyStabbo extends ApplicationAdapter {
 	float espaciadObstaculos = 35;
 	Random miGeneradorObstaculos;
 
+	boolean gameOverHaSonado = false;
+
 	/*
 	 * Hago variables para definir la valocidad y coordenadas de movimiento de los
 	 * obstaculos
@@ -100,6 +102,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 
 
 	Sound sonidoSalto;
+	Sound sonidoMuerte;
 
 	public int damePuntuacionImprimir() {
 		return puntuacionImprimir;
@@ -154,6 +157,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 	}
 
 	public void instanciaPartida() {
+		gameOverHaSonado = false;
 		personajeCoordY = Gdx.graphics.getHeight() / 2 - personajePrincipal[controlPersonje].getHeight() / 2;
 		for (int i = 0; i < numObstaculos; i++) {
 
@@ -171,8 +175,10 @@ public class BouncyStabbo extends ApplicationAdapter {
 		/*
 		 * Instancio el fondo de la partida pero en blanco y negro, asi como unas letras
 		 * rojas para
-		 * notoficar al jugador de lo que esta ocurriendo
+		 * notoficar al jugador de lo que esta ocurriendo y pongo el sonido de gameover
 		 */
+
+
 		miFuenteDeathCam = new BitmapFont();
 		miFuenteDeathCam.setColor(Color.valueOf("#FF0000"));
 		miFuenteDeathCam.getData().setScale(10);
@@ -240,6 +246,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 		 * te, funcionando el juego igual en todos los dispositivos
 		 */
 
+
 		Gdx.graphics.setContinuousRendering(false);
 		Gdx.graphics.requestRendering();
 
@@ -279,6 +286,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 		miFuente.getData().setScale(12);
 
 		sonidoSalto = Gdx.audio.newSound(Gdx.files.internal("Jump.wav"));
+		sonidoMuerte = Gdx.audio.newSound(Gdx.files.internal("gameover.wav"));
 
 		instanciaPartida();
 
@@ -405,6 +413,14 @@ public class BouncyStabbo extends ApplicationAdapter {
 			 * menu de muerte, este pregunta si se quiere reiniciar y da dos opciones
 			 */
 
+			if (!gameOverHaSonado) {
+				sonidoMuerte.play(); // Play game over sound
+				gameOverHaSonado = true; // Set the flag to indicate that the sound has been played
+			}
+
+
+
+
 			dameMenuMuerte();
 
 			if (formaYesButton.contains(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY())) {
@@ -472,7 +488,9 @@ public class BouncyStabbo extends ApplicationAdapter {
 
 			if (Intersector.overlaps(circuloPersonaje, rectanguloObstaculoInferior[i])) {
 				Gdx.app.log("Colision", "Has chocado por abajo");
+
 				estadoEjecucion = 2;
+
 			} else if (Intersector.overlaps(circuloPersonaje, rectanguloObstaculoSuperior[i])) {
 				Gdx.app.log("Colision", "Has chocado por arriba");
 				estadoEjecucion = 2;
