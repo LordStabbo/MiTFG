@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
+import java.util.List;
 import java.util.Random;
 
 public class BouncyStabbo extends ApplicationAdapter {
@@ -36,7 +37,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 	Texture obstaculoAbajo;
 	Texture fondo, fondoMuerte;
 
-	Texture yesButton, noButton;
+	Texture yesButton, noButton, musicButton;
 	Texture[] personajePrincipal;
 	// Hago variables con las que controlar las coordenadas del personaje y su
 	// velocidad
@@ -53,7 +54,6 @@ public class BouncyStabbo extends ApplicationAdapter {
 	// Random con
 	// el que se generaran los obstaculos de manera aleatoria
 	float espaciadObstaculos = 35;
-	float maxRangObstaculos;
 	Random miGeneradorObstaculos;
 
 	/*
@@ -76,7 +76,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 	Rectangle[] rectanguloObstaculoSuperior;
 	Rectangle[] rectanguloObstaculoInferior;
 
-	Rectangle formaYesButton, formaNoButton;
+	Rectangle formaYesButton, formaNoButton, formaMusicButton;
 
 	// hago una marca de control de la dfase del personaje principal
 	int controlPersonje = 0;
@@ -92,7 +92,9 @@ public class BouncyStabbo extends ApplicationAdapter {
 	BitmapFont miFuente, miFuenteHint, miFuenteDeathCam;
 
 	// Instancio la musica de la partida y los sonidos que voy a usar
-	Music musicaFondo;
+
+	List<Music> miMezcla;
+	Music pista1, pista2;
 	Sound sonidoSalto;
 
 	public int damePuntuacionImprimir() {
@@ -125,10 +127,14 @@ public class BouncyStabbo extends ApplicationAdapter {
 	}
 
 	public void ponMusica() {
-		musicaFondo = Gdx.audio.newMusic(Gdx.files.internal("saveThat.ogg"));
-		musicaFondo.setLooping(true);
-		musicaFondo.play();
+		pista1 = Gdx.audio.newMusic(Gdx.files.internal("atdoomsgate.ogg"));
+		pista1.setLooping(true);
+		pista2 = Gdx.audio.newMusic(Gdx.files.internal("saveThat.ogg"));
+		pista1.setLooping(true);
+		pista1.play();
 	}
+
+	
 
 	public void plantaSuelo() {
 		movimientoPersonaje = movimientoPersonaje + velocidadCaida;
@@ -228,6 +234,8 @@ public class BouncyStabbo extends ApplicationAdapter {
 		miGeneradorObstaculos = new Random();
 		espaciadObstaculos = Gdx.graphics.getWidth() * 3 / 4;
 
+		musicButton = new Texture("musicButton.png");
+
 		// Creo el circle del personaje principal e instancio el array de rectangles de
 		// los obstaculos
 		// para crear a estos mismos a medida que se vayan generando los obstaculos
@@ -265,6 +273,14 @@ public class BouncyStabbo extends ApplicationAdapter {
 		// exponencialmente, dando la sensación de que está cayendo
 
 		puntuacionImprimir = puntuacion / 150;
+
+
+
+
+
+
+
+
 		if (estadoEjecucion == 1) {
 
 			desplazamiento++;
@@ -430,11 +446,28 @@ public class BouncyStabbo extends ApplicationAdapter {
 			myRenderer.end();
 		}
 
+
+		miBatch.draw(musicButton,
+				Gdx.graphics.getWidth() / 8,
+				Gdx.graphics.getHeight() / 100,
+				musicButton.getWidth(),
+				musicButton.getHeight());
+
+		formaMusicButton = new Rectangle(
+				Gdx.graphics.getWidth() / 8,
+				Gdx.graphics.getHeight() / 100,
+				musicButton.getWidth(),
+				musicButton.getHeight());
+
+		if (formaMusicButton.contains(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY())) {
+			System.exit(0);
+		}
+
 		miBatch.end();
 
 		/* "Durmiendo" el proceso, fijo los FPS a 60 manualmente */
 		try {
-			Thread.sleep(1000 / 60); // Sleep for approximately 16.67 milliseconds
+			Thread.sleep(1000 / 60); // Duermo el proceso aproximadamentre 16 milisegundos
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
