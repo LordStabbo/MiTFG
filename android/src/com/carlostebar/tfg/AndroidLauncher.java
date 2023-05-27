@@ -1,5 +1,8 @@
 package com.carlostebar.tfg;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -26,8 +29,14 @@ public class AndroidLauncher extends AndroidApplication implements Puente {
 
 	@Override
 	public void enviaPuntos(int puntos) {
+
+		/*Con la clase SharedPreferences recupero el nombre que el jugador ha introducido en el menu
+		* principal*/
+		SharedPreferences preferences = getSharedPreferences("MisPrefs", Context.MODE_PRIVATE);
+		String nombreJugador = preferences.getString("nombre_jugador", "Player");
 		System.out.println("-------------Puntos salvados en la capa android-------------------"+puntos);
 		Log.w("PUNTOS","-------------Puntos salvados en la capa android-------------------"+puntos);
+		Log.w("NOMBRE","-------------Nombre salvados en la capa android-------------------"+nombreJugador);
 		finish();
 	}
 }

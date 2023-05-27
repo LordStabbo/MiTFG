@@ -1,6 +1,8 @@
 package com.carlostebar.tfg;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +21,8 @@ public class MenuPrincipal extends AppCompatActivity {
 
     private TextInputEditText editText;
     private VideoView videoView;
+
+     String nombreJugador;
 
     @Override
     public void onBackPressed(){
@@ -64,7 +68,7 @@ public class MenuPrincipal extends AppCompatActivity {
         botonInsertar.setTextSize(24);
         botonLeather.setTextSize(24);
 
-        String nombreJugador = editText.getText().toString();
+        nombreJugador = editText.getText().toString();
 
 
         botonLeather.setOnClickListener(new View.OnClickListener() {
@@ -87,9 +91,18 @@ public class MenuPrincipal extends AppCompatActivity {
             public void onClick(View view) {
                 String nombreJugador = String.valueOf(editText.getText());
                 if(nombreJugador.isEmpty()){
-                    Toast.makeText(MenuPrincipal    .this, "Introduzca un nombre de Jugador", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MenuPrincipal.this, "Introduzca un nombre de Jugador", Toast.LENGTH_SHORT).show();
 
                 }else{
+                    /*Creo unas SharedPreferences para "enviar" el nombre que el jugador ha introducido
+                    * a la actividad en la que se inserta en la BD junto a la puntuacion que este
+                    * jugador consiga*/
+                    SharedPreferences preferences = getSharedPreferences("MisPrefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("nombre_jugador", nombreJugador);
+                    editor.apply();
+
+
                     Intent intent = new Intent(MenuPrincipal.this,AndroidLauncher.class);
                     startActivity(intent);
                 }
