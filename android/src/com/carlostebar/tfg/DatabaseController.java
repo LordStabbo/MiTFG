@@ -24,9 +24,9 @@ public class DatabaseController extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(leatherBoard);
 
-        db.execSQL("INSERT INTO leatherboard VALUES (1, 'Saul', 130, 'Stabbo');");
-        db.execSQL("INSERT INTO leatherboard VALUES (2, 'Walt', 170, 'Stabbo');");
-        db.execSQL("INSERT INTO leatherboard VALUES (3, 'Hank', 130, 'Stabbo');");
+        db.execSQL("INSERT INTO leatherboard VALUES (1, 'Saul', 13, 'Stabbo');");
+        db.execSQL("INSERT INTO leatherboard VALUES (2, 'Walt', 17, 'Stabbo');");
+        db.execSQL("INSERT INTO leatherboard VALUES (3, 'Hank', 13, 'Stabbo');");
     }
 
     @Override

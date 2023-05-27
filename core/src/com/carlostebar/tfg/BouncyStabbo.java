@@ -41,7 +41,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 	// Hago variables con las que controlar las coordenadas del personaje y su
 	// velocidad
 	double movimientoPersonaje = 0;
-	double velocidadCaida = 0.9;
+	double velocidadCaida = 2;
 	long personajeCoordY = 0;
 	// Creo un Circle para las colisiones del personaje
 	Circle circuloPersonaje;
@@ -60,7 +60,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 	 * Hago variables para definir la valocidad y coordenadas de movimiento de los
 	 * obstaculos
 	 */
-	float movimientoObstaculo = 4;
+	float movimientoObstaculo = 6;
 
 	// Hago una variable para controlar el numero de obstaculos que se van "a
 	// pasear" en bucle por
@@ -264,7 +264,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 		// decrece
 		// exponencialmente, dando la sensación de que está cayendo
 
-		puntuacionImprimir = puntuacion / 100;
+		puntuacionImprimir = puntuacion / 150;
 		if (estadoEjecucion == 1) {
 
 			desplazamiento++;
@@ -279,7 +279,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 				// Esto hace que cada vez que el usuario toca, el personaje se mueve 50 uds
 				// hacia
 				// arriba
-				movimientoPersonaje = -25;
+				movimientoPersonaje = -35;
 				sonidoSalto.play();
 			}
 
@@ -297,7 +297,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 					// por lo que el jugador ya habría perdido para ese momento
 
 					if (obstaculoCoordX[i] <= Gdx.graphics.getWidth() / 2) {
-						puntuacion += 5;
+						puntuacion += 1;
 
 					}
 
