@@ -18,6 +18,11 @@ import java.util.Random;
 
 
 public class BouncyStabbo extends ApplicationAdapter {
+
+	/*Instanciol mi interfaz puente para poder volver a la capa de androis guardando la puntuacion
+		del jugador*/
+	private Puente miPuente;
+
 	//Instancio una variable que con la que manejar el estado de la ejecucion
 	int estadoEjecucion = 0;
 	int desplazamiento =0;
@@ -86,6 +91,13 @@ public class BouncyStabbo extends ApplicationAdapter {
 
 	//Con esta variable hago que el testing de colisiones este activado o no en partida
 	boolean testing = false;
+
+	//Hago un setter para el puente
+	public void tomaPuenteCore(Puente miPuente){
+		this.miPuente=miPuente;
+	}
+
+
 
 	//Hago un metodo que recorra en bucle el estado del personaje para usarlo en el metodo render
 	public void recorreEstados(){
@@ -267,6 +279,18 @@ public class BouncyStabbo extends ApplicationAdapter {
 			}
 		}else if(estadoEjecucion == 2){
 			dameMenuMuerte();
+			/*
+			*
+			*
+			*
+			*
+			*
+			*
+			*
+			*
+			*
+			*
+			* */
 
 			if(formaYesButton.contains(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY())){
 					estadoEjecucion = 0;
@@ -278,10 +302,12 @@ public class BouncyStabbo extends ApplicationAdapter {
 			if(formaNoButton.contains(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY())){
 
 				this.puntuacionImprimir = puntuacionImprimir;
-				//System.exit(0);
-				System.out.println("------------------"+damePuntuacionImprimir());
-				this.dispose();
 
+				Gdx.app.log("-------------Puntos", "Puntos--------"+damePuntuacionImprimir());
+
+				if(miPuente != null){
+					miPuente.enviaPuntos(damePuntuacionImprimir());
+				}
 			}
 
 		}
