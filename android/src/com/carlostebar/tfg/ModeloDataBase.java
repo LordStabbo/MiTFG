@@ -56,7 +56,7 @@ public class ModeloDataBase {
                     int puntuacion = cursor.getInt(cursor.getColumnIndexOrThrow("puntuacion"));
                     String personaje = cursor.getString(cursor.getColumnIndexOrThrow("personaje"));
 
-                    String [] tupla = {String.valueOf(posicion), nombreJugador, String.valueOf(puntuacion), personaje};
+                    String [] tupla = {String.valueOf(posicion),nombreJugador, String.valueOf(puntuacion),personaje};
                     tuplas.add(tupla);
 
                 }
@@ -76,7 +76,7 @@ public class ModeloDataBase {
         int vuelta = 0;
 
         String insertaPuntos ="INSERT INTO leatherboard (idPuntuacion, nombreJugador, puntuacion, personaje)" +
-                "VALUES ("+misPuntos.getId()+", ' "+misPuntos.getNombre()+" ', "+misPuntos.getPuntuacion()+" , ' "+misPuntos.getPersonaje()+" ' );";
+                "VALUES ("+misPuntos.getId()+", '"+misPuntos.getNombre().trim()+"', "+misPuntos.getPuntuacion()+" , '"+misPuntos.getPersonaje().trim()+"' );";
 
         SQLiteDatabase sqldb = this.dameConn(context);
 

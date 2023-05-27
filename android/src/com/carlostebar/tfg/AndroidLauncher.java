@@ -39,19 +39,15 @@ public class AndroidLauncher extends AndroidApplication implements Puente {
 		Log.w("PUNTOS","-------------Puntos salvados en la capa android-------------------"+puntos);
 		Log.w("NOMBRE","-------------Nombre salvados en la capa android-------------------"+nombreJugador);
 
+		/*Instancio mi modelo de database para hacer la insercion de la nueva puntuacion*/
 		ModeloDataBase miModelo = new ModeloDataBase();
 
+		/*e intento insertar un pojoPuntuaciones*/
 		PojoPuntuaciones misPuntos = new PojoPuntuaciones(1, nombreJugador, puntos, "stabbo");
 
-		int vueltaInsert = miModelo.insertaPuntos(AndroidLauncher.this, misPuntos);
+		miModelo.insertaPuntos(AndroidLauncher.this, misPuntos);
 
-		if(vueltaInsert == 1){
-			Toast.makeText(AndroidLauncher.this, "Consulta" +
-					" Correcta", Toast.LENGTH_SHORT).show();
-		}else {
-			Toast.makeText(AndroidLauncher.this, "La Consulta " +
-					"no ha funcionado", Toast.LENGTH_SHORT).show();
-		}
+
 
 		finish();
 	}
