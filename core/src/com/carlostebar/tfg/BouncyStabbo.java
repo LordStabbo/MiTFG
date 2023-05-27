@@ -126,7 +126,7 @@ public class BouncyStabbo extends ApplicationAdapter {
 		int nextState = (controlPersonje + 1) % numStates; // Calculate the next state
 
 		try {
-			Thread.sleep(20); // Pause for half a second
+			Thread.sleep(10); // Pause for half a second
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -259,11 +259,11 @@ public class BouncyStabbo extends ApplicationAdapter {
 		// Instancio la textura del personaje
 
 		personajePrincipal = new Texture[5];
-		personajePrincipal[0] = new Texture("ninja_salto1.png");
+		personajePrincipal[0] = new Texture("ninja_salto3.png");
 		personajePrincipal[1] = new Texture("ninja_salto2.png");
 		personajePrincipal[2] = new Texture("ninja_salto3.png");
-		personajePrincipal[3] = new Texture("ninja_salto4.png");
-		personajePrincipal[4] = new Texture("ninja_salto5.png");
+		personajePrincipal[3] = new Texture("ninja_salto2.png");
+		personajePrincipal[4] = new Texture("ninja_salto3.png");
 
 		// Instancio las texturas de los obstaculos y declaro el rango en el que pueden
 		// aparecer

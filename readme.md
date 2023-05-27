@@ -30,3 +30,15 @@ On the other side, the game has a Main Menu from where the player can launch the
     - Open Android Studio AS ADMINISTRATOR (this is very important, because if not gradle wont be able to create its required files).
 
     - Install the application 
+
+## User Manual
+- 1.- Touch the application icon to open it.
+- 2.- [In the Main Menu]: Tap the "LEATHERBOARDS" button to check the saved scores.
+- 3.- [In the Scores menu]: Tap back to return to the main menu.
+- 4.- [In the Main Menu]: Enter your name and press the Play button to start a game.
+- 5.- [In the game]: Read the tutorial and touch the screen to begin.
+- 6.- [In the game]: Touch the screen to avoid obstacles. If you touch one, you will be eliminated.
+- 7.- [In Game Over]: The game asks if you want to retry.
+- - 7.1. Press YES to retry.
+- - 7.2. Press NO to return to the main menu, saving your progress.
+- - 7.3. Press the music note button to change the song.
