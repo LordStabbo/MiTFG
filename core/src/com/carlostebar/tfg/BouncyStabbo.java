@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -93,8 +94,11 @@ public class BouncyStabbo extends ApplicationAdapter {
 
 	// Instancio la musica de la partida y los sonidos que voy a usar
 
-	List<Music> miMezcla;
-	Music pista1, pista2;
+	List<Music> miMezcla = new ArrayList<>();
+	Music pista1, pista2, pista3;
+
+
+
 	Sound sonidoSalto;
 
 	public int damePuntuacionImprimir() {
@@ -126,15 +130,23 @@ public class BouncyStabbo extends ApplicationAdapter {
 		}
 	}
 
-	public void ponMusica() {
-		pista1 = Gdx.audio.newMusic(Gdx.files.internal("atdoomsgate.ogg"));
-		pista1.setLooping(true);
-		pista2 = Gdx.audio.newMusic(Gdx.files.internal("saveThat.ogg"));
-		pista1.setLooping(true);
-		pista1.play();
-	}
 
-	
+
+
+	/*Este metodo toma por parametro una lista de canciones, y cuando se le invoca detecta la que esta
+	sonando, y pone la siguiente de la lista*/
+	public static void cambiaCancion(List<Music> miMezcla) {
+
+		for (int i = 0; i < miMezcla.size(); i++) {
+			Music cancionActual = miMezcla.get(i);
+			if (cancionActual.isPlaying()) {
+				cancionActual.stop();
+				Music Siguientecancion = miMezcla.get((i + 1) % miMezcla.size());
+				Siguientecancion.play();
+				break;
+			}
+		}
+	}
 
 	public void plantaSuelo() {
 		movimientoPersonaje = movimientoPersonaje + velocidadCaida;
@@ -196,6 +208,24 @@ public class BouncyStabbo extends ApplicationAdapter {
 				(Gdx.graphics.getHeight() / 2 - altoNoButton / 3) - noButton.getHeight() * 2, anchoNoButton,
 				altoNoButton);
 
+
+
+		miBatch.draw(musicButton,
+				Gdx.graphics.getWidth() / 8,
+				Gdx.graphics.getHeight() / 100,
+				musicButton.getWidth(),
+				musicButton.getHeight());
+
+		formaMusicButton = new Rectangle(
+				Gdx.graphics.getWidth() / 8,
+				Gdx.graphics.getHeight() / 100,
+				musicButton.getWidth(),
+				musicButton.getHeight());
+
+		if (formaMusicButton.contains(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY())) {
+			cambiaCancion(miMezcla);
+		}
+
 	}
 
 	// metodo on create que se arranca al iniciar
@@ -254,7 +284,19 @@ public class BouncyStabbo extends ApplicationAdapter {
 
 		myRenderer = new ShapeRenderer();
 
-		ponMusica();
+		miMezcla = new ArrayList<>();
+
+
+
+		pista1 = Gdx.audio.newMusic(Gdx.files.internal("atdoomsgate.ogg"));
+		pista2 = Gdx.audio.newMusic(Gdx.files.internal("saveThat.ogg"));
+		pista3 = Gdx.audio.newMusic(Gdx.files.internal("takemehome.ogg"));
+
+		miMezcla.add(pista1);
+		miMezcla.add(pista2);
+		miMezcla.add(pista3);
+
+		pista3.play();
 
 	}
 
@@ -273,12 +315,6 @@ public class BouncyStabbo extends ApplicationAdapter {
 		// exponencialmente, dando la sensación de que está cayendo
 
 		puntuacionImprimir = puntuacion / 150;
-
-
-
-
-
-
 
 
 		if (estadoEjecucion == 1) {
@@ -447,21 +483,6 @@ public class BouncyStabbo extends ApplicationAdapter {
 		}
 
 
-		miBatch.draw(musicButton,
-				Gdx.graphics.getWidth() / 8,
-				Gdx.graphics.getHeight() / 100,
-				musicButton.getWidth(),
-				musicButton.getHeight());
-
-		formaMusicButton = new Rectangle(
-				Gdx.graphics.getWidth() / 8,
-				Gdx.graphics.getHeight() / 100,
-				musicButton.getWidth(),
-				musicButton.getHeight());
-
-		if (formaMusicButton.contains(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY())) {
-			System.exit(0);
-		}
 
 		miBatch.end();
 
