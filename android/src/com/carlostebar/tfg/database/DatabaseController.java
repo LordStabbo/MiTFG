@@ -1,4 +1,4 @@
-package com.carlostebar.tfg;
+package com.carlostebar.tfg.database;
 
 //Instancio las clases que necesito
 import android.content.Context;
@@ -24,6 +24,7 @@ public class DatabaseController extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(leatherBoard);
 
+        //Inserciones de Ejemplo
         db.execSQL("INSERT INTO leatherboard VALUES (1, 'Saul', 13, 'Stabbo');");
         db.execSQL("INSERT INTO leatherboard VALUES (2, 'Walt', 17, 'Stabbo');");
         db.execSQL("INSERT INTO leatherboard VALUES (3, 'Hank', 13, 'Stabbo');");

@@ -7,11 +7,15 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.carlostebar.tfg.database.DatabaseController;
+import com.carlostebar.tfg.database.PojoPuntuaciones;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModeloDataBase {
 
+    //Creo la conexion con la Base de datos
     public SQLiteDatabase dameConn(Context context) {
 
         DatabaseController miConexion = new DatabaseController(context);
@@ -19,7 +23,9 @@ public class ModeloDataBase {
         return miDataBase;
     }
 
+    //Este metodo lo uso para obtener el contenido de la leaderboard
     int consultaPuntuaciones(Context context) {
+
 
         int ronda = 0;
         String consultaPuntuaciones = "SELECT * FROM leatherboard ORDER BY puntuacion DESC;";
@@ -35,6 +41,7 @@ public class ModeloDataBase {
         return ronda;
     }
 
+    //Esta consulta obtiene todas las puntuaciones ordenadas de mayor a menor por su valor
     List<String[]> dameTuplas(Context context){
         DatabaseController miController = new DatabaseController(context);
         SQLiteDatabase sqld = miController.getWritableDatabase();
@@ -72,6 +79,7 @@ public class ModeloDataBase {
         return tuplas;
     }
 
+    //Con este metodo guardo las puntuaciones en la BD al salir de partida
     int insertaPuntos(Context context, PojoPuntuaciones misPuntos){
         int vuelta = 0;
 

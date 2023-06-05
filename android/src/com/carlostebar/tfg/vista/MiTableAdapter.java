@@ -1,4 +1,4 @@
-package com.carlostebar.tfg;
+package com.carlostebar.tfg.vista;
 
 import android.content.Context;
 import android.graphics.Color;

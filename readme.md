@@ -28,7 +28,7 @@ On the other side, the game has a Main Menu from where the player can launch the
 - 1.- Clone the program's Github repository by entering the following command in cmd: git clone https://github.com/LordStabbo/MiTFG
 - 2.- Run Android Studio as an ADMINISTRATOR (this is important).
 - 3.- With Android Studio, open the folder that was generated when you entered the command in step 1.
-- 4 .- Install the application on your mobile device by clicking the green triangle button at the top right corner of the screen.
+- 4.- Install the application on your mobile device by clicking the green triangle button at the top right corner of the screen.
 
 ## User Manual
 - 1.- Touch the application icon to open it.

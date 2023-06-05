@@ -1,15 +1,14 @@
 package com.carlostebar.tfg;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.carlostebar.tfg.database.PojoPuntuaciones;
 
 public class AndroidLauncher extends AndroidApplication implements Puente {
 

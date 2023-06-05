@@ -1,4 +1,4 @@
-package com.carlostebar.tfg;
+package com.carlostebar.tfg.database;
 
 public class PojoPuntuaciones {
 

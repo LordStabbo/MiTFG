@@ -1,20 +1,19 @@
 package com.carlostebar.tfg;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.carlostebar.tfg.vista.MiTableAdapter;
+import com.carlostebar.tfg.vista.MiTableHeaderAdapter;
+
 import java.util.List;
 
 import de.codecrafters.tableview.TableView;
-import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
-import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 
 public class MenuPuntuaciones extends AppCompatActivity {
 
